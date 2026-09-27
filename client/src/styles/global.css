@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+    --resq-bg: #07111f;
+    --resq-text: #f8fafc;
+    --resq-muted: #94a3b8;
+    --resq-red: #ef4444;
+    --resq-red-dark: #dc2626;
+    --resq-orange: #f97316;
+    --resq-green: #22c55e;
+    --resq-blue: #3b82f6;
+    --resq-purple: #a855f7;
+    --resq-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    color: var(--resq-text);
+    background: var(--resq-bg);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+p {
+    font-size: 15px;
+}
+
+small {
+    font-size: 12px;
+}
+
+label,
+.form-label {
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 42px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+button,
+.btn,
+.view-btn,
+.update-status-btn,
+.emergency-btn {
+    font-size: 14px;
+}
+
+input,
+select,
+textarea,
+.form-control,
+.form-select {
+    font-size: 14px !important;
+}
+/* ================= NAVBAR ================= */
+
+.resq-navbar {
+    width: 100%;
+    height: 72px;
+    background: rgba(5, 9, 20, 0.96);
+    border-bottom: 1px solid var(--resq-border);
+    position: relative;
+    z-index: 100;
+}
+
+.navbar-inner {
+    width: min(1200px, calc(100% - 40px));
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    font-weight: 800;
+    font-size: 19px;
+}
+
+.navbar-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.navbar-subtitle {
+    font-size: 8px;
+    color: var(--resq-muted);
+    letter-spacing: 1px;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.navbar-links a {
+    color: #cbd5e1;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.navbar-links a:hover {
+    color: #fff;
+}
+
+.navbar-logout {
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.navbar-logout:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 900px) {
+    .navbar-links {
+        display: none;
+    }
+}

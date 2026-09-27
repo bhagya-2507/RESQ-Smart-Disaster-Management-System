@@ -1,0 +1,1642 @@
+/* =====================================================
+   RESQ AI — PREMIUM CITIZEN EMERGENCY ASSISTANT
+===================================================== */
+
+.resq-ai-floating-button {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 9999;
+
+  width: 68px;
+  height: 68px;
+
+  border: 1px solid #3d79ad;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at 35% 25%, #234b70, #0d1d2f);
+
+  color: #ffffff;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.45),
+    0 0 25px rgba(45, 126, 190, 0.16);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resq-ai-floating-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(45, 126, 190, 0.25);
+}
+
+.resq-ai-floating-button span {
+  font-size: 25px;
+  line-height: 25px;
+}
+
+.resq-ai-floating-button small {
+  margin-top: 3px;
+  color: #8fc5ee;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+
+/* =====================================================
+   CHAT WINDOW
+===================================================== */
+
+.resq-ai-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+
+  width: 390px;
+  height: 590px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border: 1px solid #2c4b68;
+  border-radius: 18px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(41, 91, 135, 0.12),
+      transparent 35%
+    ),
+    #08121f;
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.62),
+    0 0 35px rgba(35, 103, 155, 0.12);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.resq-ai-header {
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 13px 15px;
+
+  border-bottom: 1px solid #22384f;
+
+  background: #0d1a2a;
+}
+
+.resq-ai-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  flex: 1;
+}
+
+.resq-ai-avatar {
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #32668f;
+  border-radius: 12px;
+
+  background: #102a42;
+
+  font-size: 21px;
+
+  box-shadow:
+    0 0 18px rgba(41, 128, 190, 0.13);
+}
+
+.resq-ai-brand strong {
+  display: block;
+
+  color: #f3f7fb;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.resq-ai-brand small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #7892ad;
+
+  font-size: 9px;
+}
+
+.resq-ai-online {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 5px 8px;
+
+  border: 1px solid #285544;
+  border-radius: 15px;
+
+  background: #0b211b;
+
+  color: #55d69c;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.resq-ai-online span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #39d791;
+
+  box-shadow: 0 0 8px #39d791;
+}
+
+.resq-ai-close {
+  width: 29px;
+  height: 29px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #7890a9;
+
+  font-size: 21px;
+
+  cursor: pointer;
+}
+
+.resq-ai-close:hover {
+  background: #162536;
+  color: #dbe7f2;
+}
+
+
+/* =====================================================
+   CHAT AREA
+===================================================== */
+
+.resq-ai-messages {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 18px 15px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #29445d transparent;
+}
+
+.resq-ai-message {
+  display: flex;
+  gap: 8px;
+
+  margin-bottom: 17px;
+}
+
+.resq-ai-message.user {
+  justify-content: flex-end;
+}
+
+.message-avatar {
+  width: 29px;
+  height: 29px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #284965;
+  border-radius: 9px;
+
+  background: #11283e;
+
+  font-size: 14px;
+}
+
+.message-bubble {
+  max-width: 82%;
+
+  padding: 12px 13px;
+
+  border: 1px solid #29435c;
+  border-radius: 12px 12px 12px 4px;
+
+  background: #102033;
+
+  color: #c8d6e5;
+
+  font-size: 11px;
+  line-height: 1.6;
+
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+}
+
+.resq-ai-message.user .message-bubble {
+  border-color: #285b88;
+  border-radius: 12px 12px 4px 12px;
+
+  background: #123b62;
+
+  color: #e6f1fb;
+}
+
+.typing {
+  color: #78a4ca;
+  font-style: italic;
+}
+
+
+/* =====================================================
+   QUICK ACTIONS
+===================================================== */
+
+.resq-ai-quick-actions {
+  display: flex;
+  gap: 7px;
+
+  padding: 10px 12px;
+
+  border-top: 1px solid #1d3145;
+  border-bottom: 1px solid #1d3145;
+
+  background: #091522;
+
+  overflow-x: auto;
+}
+
+.resq-ai-quick-actions button {
+  flex-shrink: 0;
+
+  padding: 8px 11px;
+
+  border: 1px solid #285477;
+  border-radius: 8px;
+
+  background: #0c2033;
+
+  color: #7db4df;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.resq-ai-quick-actions button:hover {
+  border-color: #4c8cbd;
+  background: #112d47;
+  color: #a6d3f2;
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.resq-ai-input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px;
+}
+
+.resq-ai-input-area input {
+  flex: 1;
+  min-width: 0;
+
+  height: 43px;
+
+  padding: 0 13px;
+
+  border: 1px solid #294057;
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #0b1725;
+
+  color: #edf5fc;
+
+  font-size: 11px;
+
+  transition: 0.2s ease;
+}
+
+.resq-ai-input-area input::placeholder {
+  color: #5f748b;
+}
+
+.resq-ai-input-area input:focus {
+  border-color: #4380ae;
+  box-shadow: 0 0 0 3px rgba(67, 128, 174, 0.08);
+}
+
+.resq-ai-input-area button {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #236da4;
+
+  color: white;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 15px rgba(35, 109, 164, 0.18);
+
+  transition: 0.2s ease;
+}
+
+.resq-ai-input-area button:hover:not(:disabled) {
+  background: #2d80bd;
+  transform: translateY(-1px);
+}
+
+.resq-ai-input-area button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* =====================================================
+   DISCLAIMER
+===================================================== */
+
+.resq-ai-disclaimer {
+  padding: 0 15px 12px;
+
+  color: #52677e;
+
+  font-size: 8px;
+  line-height: 1.45;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 520px) {
+  .resq-ai-widget {
+    right: 10px;
+    bottom: 10px;
+
+    width: calc(100vw - 20px);
+    height: min(620px, calc(100vh - 20px));
+
+    border-radius: 16px;
+  }
+
+  .resq-ai-floating-button {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+/* =====================================================
+   RESQ AI — CLOSED / FLOATING BUTTON
+===================================================== */
+
+.resq-ai-toggle {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 9999;
+
+  min-width: 68px;
+  height: 68px;
+  padding: 8px 10px;
+
+  border: 1px solid #3d79ad;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #234b70,
+      #0d1d2f
+    );
+
+  color: #ffffff;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.45),
+    0 0 25px rgba(45, 126, 190, 0.16);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.resq-ai-toggle:hover {
+  transform: translateY(-4px) scale(1.03);
+
+  border-color: #62a7d8;
+
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.52),
+    0 0 35px rgba(45, 126, 190, 0.28);
+}
+
+.resq-ai-toggle:active {
+  transform: scale(0.96);
+}
+
+.resq-ai-toggle span {
+  margin-top: 3px;
+
+  color: #8fc5ee;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+
+/* =====================================================
+   CHAT OPEN ANIMATION
+===================================================== */
+
+.resq-ai-widget {
+  animation: resqAIEnter 0.25s ease-out;
+}
+
+@keyframes resqAIEnter {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.resq-ai-close {
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+  line-height: 1;
+}
+
+.resq-ai-close:active {
+  transform: scale(0.9);
+}
+
+
+/* =====================================================
+   MOBILE FLOATING BUTTON
+===================================================== */
+
+@media (max-width: 520px) {
+  .resq-ai-toggle {
+    right: 16px;
+    bottom: 16px;
+
+    width: 62px;
+    min-width: 62px;
+    height: 62px;
+  }
+}
+.notification-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notification-bell {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+}
+
+.notification-bell:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #10151d;
+}
+
+/* Notification Dropdown */
+
+.notification-dropdown {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  width: 390px;
+  max-width: calc(100vw - 30px);
+  background: #111820;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.notification-header {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notification-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notification-header span {
+  color: #8d9aaa;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.notification-header strong {
+  color: #fff;
+  font-size: 17px;
+}
+
+.notification-header > b {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 7px;
+  border-radius: 20px;
+  background: rgba(255, 59, 48, 0.15);
+  color: #ff5b52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* Alert list */
+
+.notification-list {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  transition: 0.2s ease;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.notification-item-top strong {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.notification-item-top span {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  border-radius: 6px;
+}
+
+.notification-item p {
+  margin: 8px 0;
+  color: #b7c0cc;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.notification-item small {
+  color: #8d9aaa;
+  font-size: 12px;
+}
+
+/* Severity */
+
+.notification-critical {
+  border-left: 3px solid #ff3b30;
+}
+
+.notification-critical .notification-item-top span {
+  background: rgba(255, 59, 48, 0.14);
+  color: #ff625a;
+}
+
+.notification-high {
+  border-left: 3px solid #ff9500;
+}
+
+.notification-high .notification-item-top span {
+  background: rgba(255, 149, 0, 0.14);
+  color: #ffad42;
+}
+
+.notification-medium {
+  border-left: 3px solid #ffcc00;
+}
+
+.notification-medium .notification-item-top span {
+  background: rgba(255, 204, 0, 0.14);
+  color: #ffd633;
+}
+
+.notification-low {
+  border-left: 3px solid #34c759;
+}
+
+.notification-low .notification-item-top span {
+  background: rgba(52, 199, 89, 0.14);
+  color: #52d878;
+}
+
+/* Empty */
+
+.notification-empty {
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.notification-empty span {
+  display: block;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.notification-empty p {
+  margin: 0;
+  color: #9da8b5;
+  font-size: 14px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .notification-dropdown {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    width: calc(100vw - 30px);
+  }
+}
+/* =========================================================
+   RESQ — RED EMERGENCY RADAR LOADING SCREEN
+========================================================= */
+
+.resq-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(125, 0, 0, 0.28),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(50, 0, 0, 0.4),
+      transparent 65%
+    ),
+    #080303;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* BACKGROUND */
+
+.resq-bg-glow {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(190, 0, 0, 0.08);
+  filter: blur(90px);
+}
+
+.resq-bg-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(
+      rgba(255, 40, 40, 0.12) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 40, 40, 0.12) 1px,
+      transparent 1px
+    );
+  background-size: 55px 55px;
+  transform: perspective(900px) rotateX(50deg) scale(1.35);
+  transform-origin: center bottom;
+}
+
+.resq-scan-line {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 2px;
+  height: 140%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 35, 35, 0.8),
+    transparent
+  );
+  box-shadow: 0 0 25px rgba(255, 20, 20, 0.5);
+  transform-origin: center;
+  animation: resqVerticalScan 5s linear infinite;
+  opacity: 0.5;
+}
+
+/* TOP */
+
+.resq-loading-top {
+  position: absolute;
+  top: 28px;
+  left: 38px;
+  right: 38px;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resq-live-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ff7474;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.resq-live-status span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff2525;
+  box-shadow:
+    0 0 8px #ff2525,
+    0 0 20px rgba(255, 20, 20, 0.7);
+  animation: resqLive 1.1s infinite;
+}
+
+.resq-coordinates {
+  color: rgba(255, 150, 150, 0.5);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+}
+
+/* LEFT STEPS */
+
+.resq-loading-steps {
+  position: absolute;
+  z-index: 30;
+  left: 38px;
+  top: 16%;
+  width: 250px;
+}
+
+.resq-step {
+  position: relative;
+  display: flex;
+  gap: 15px;
+  min-height: 72px;
+  opacity: 0.35;
+  transition: 0.5s ease;
+}
+
+.resq-step.active {
+  opacity: 1;
+}
+
+.resq-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 25px;
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 60, 60, 0.25);
+}
+
+.resq-step-dot {
+  position: relative;
+  z-index: 2;
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  border: 2px solid rgba(255, 100, 100, 0.35);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resq-step.active .resq-step-dot {
+  border-color: #ff3c3c;
+  background: rgba(255, 30, 30, 0.2);
+  box-shadow: 0 0 15px rgba(255, 30, 30, 0.45);
+}
+
+.resq-step strong {
+  display: block;
+  color: #eee;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+}
+
+.resq-step small {
+  display: block;
+  margin-top: 6px;
+  color: #856969;
+  font-size: 10px;
+}
+
+/* RIGHT */
+
+.resq-loading-right {
+  position: absolute;
+  z-index: 30;
+  right: 40px;
+  top: 32%;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  width: 120px;
+  text-align: center;
+}
+
+.resq-side-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #8e7777;
+}
+
+.side-icon {
+  color: #ff4a4a;
+  font-size: 27px;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(255, 30, 30, 0.7);
+}
+
+.resq-side-status strong {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.resq-side-status small {
+  color: #a33b3b;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+/* RADAR */
+
+.resq-radar {
+  position: absolute;
+  width: min(720px, 58vw);
+  height: min(720px, 58vw);
+  min-width: 480px;
+  min-height: 480px;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.radar-circle {
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 45, 45, 0.32);
+}
+
+.radar-outer {
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    0 0 40px rgba(255, 0, 0, 0.08),
+    inset 0 0 40px rgba(255, 0, 0, 0.05);
+}
+
+.radar-middle {
+  width: 76%;
+  height: 76%;
+}
+
+.radar-inner {
+  width: 49%;
+  height: 49%;
+  border-color: rgba(255, 65, 65, 0.38);
+}
+
+.radar-ticks {
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 10px dotted rgba(255, 60, 60, 0.14);
+  animation: resqTicks 35s linear infinite;
+}
+
+.radar-cross {
+  position: absolute;
+  background: rgba(255, 60, 60, 0.13);
+}
+
+.radar-cross.horizontal {
+  width: 100%;
+  height: 1px;
+  left: 0;
+  top: 50%;
+}
+
+.radar-cross.vertical {
+  height: 100%;
+  width: 1px;
+  left: 50%;
+  top: 0;
+}
+
+/* RADAR SWEEP */
+
+.radar-sweep {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0 0;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 30, 30, 0.5),
+    rgba(255, 30, 30, 0.12) 25deg,
+    transparent 65deg
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  animation: radarRotate 3s linear infinite;
+  opacity: 0.7;
+}
+
+/* LOCATION BEACONS */
+
+.location-beacon {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3535;
+  box-shadow:
+    0 0 9px #ff3535,
+    0 0 24px rgba(255, 30, 30, 0.8);
+  animation: beaconPulse 1.7s infinite;
+}
+
+.location-beacon span {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 50, 50, 0.45);
+  border-radius: 50%;
+  animation: beaconRing 1.7s infinite;
+}
+
+.beacon-1 {
+  top: 25%;
+  left: 27%;
+}
+
+.beacon-2 {
+  top: 22%;
+  right: 27%;
+  animation-delay: 0.5s;
+}
+
+.beacon-3 {
+  bottom: 25%;
+  left: 20%;
+  animation-delay: 0.9s;
+}
+
+.beacon-4 {
+  bottom: 20%;
+  right: 25%;
+  animation-delay: 1.2s;
+}
+
+.beacon-5 {
+  top: 62%;
+  left: 14%;
+  animation-delay: 1.5s;
+}
+
+/* CENTER RESQ */
+
+.resq-center {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  text-align: center;
+}
+
+.resq-logo-symbol {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.resq-logo-triangle {
+  width: 62px;
+  height: 62px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 27px;
+  font-weight: 900;
+  text-shadow: 0 0 15px #ff2020;
+  filter: drop-shadow(0 0 12px rgba(255, 20, 20, 0.5));
+}
+
+.resq-logo-triangle::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-left: 31px solid transparent;
+  border-right: 31px solid transparent;
+  border-bottom: 55px solid rgba(255, 45, 45, 0.9);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.resq-logo-triangle span {
+  position: relative;
+  z-index: 2;
+  margin-top: 14px;
+}
+
+.resq-logo-text {
+  font-size: 55px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 7px;
+  text-shadow: 0 0 20px rgba(255, 50, 50, 0.2);
+}
+
+.resq-logo-text span {
+  color: #ff3434;
+}
+
+.resq-logo-subtitle {
+  margin-top: 12px;
+  color: #ded0d0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.3px;
+}
+
+.resq-tagline {
+  margin-top: 18px;
+  color: #b68c8c;
+  font-size: 11px;
+  letter-spacing: 4px;
+}
+
+.resq-tagline i {
+  color: #ff3434;
+  font-style: normal;
+}
+
+/* BOTTOM */
+
+.resq-loading-bottom {
+  position: absolute;
+  z-index: 40;
+  left: 50%;
+  bottom: 55px;
+  transform: translateX(-50%);
+  width: min(590px, 55vw);
+  text-align: center;
+}
+
+.resq-loading-message {
+  color: #ddd;
+  font-size: 13px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.message-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff3333;
+  box-shadow: 0 0 12px #ff3333;
+  margin-right: 9px;
+  animation: resqLive 1s infinite;
+}
+
+.resq-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.resq-progress-track {
+  flex: 1;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 80, 80, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.resq-progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #b50000,
+    #ff2f2f,
+    #ff6868
+  );
+  box-shadow:
+    0 0 14px rgba(255, 30, 30, 0.8);
+  transition: width 0.1s linear;
+}
+
+.resq-progress-row strong {
+  color: #eee;
+  font-size: 17px;
+  min-width: 42px;
+}
+
+.resq-loading-info {
+  margin-top: 15px;
+  color: #704e4e;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+/* CORNERS */
+
+.resq-corner-message {
+  position: absolute;
+  left: 38px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #755858;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.resq-corner-message span {
+  width: 45px;
+  height: 2px;
+  background: #ff2d2d;
+  margin-bottom: 5px;
+  box-shadow: 0 0 10px rgba(255, 30, 30, 0.7);
+}
+
+.resq-corner-right {
+  position: absolute;
+  right: 38px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #765757;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-align: right;
+}
+
+.resq-corner-right span:first-child {
+  color: #ff4747;
+}
+
+/* ANIMATIONS */
+
+@keyframes radarRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes resqTicks {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes beaconPulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+@keyframes beaconRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes resqLive {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes resqVerticalScan {
+  0% {
+    transform: translateX(-550px) rotate(22deg);
+  }
+
+  100% {
+    transform: translateX(550px) rotate(22deg);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .resq-loading-steps {
+    left: 20px;
+    transform: scale(0.85);
+    transform-origin: left top;
+  }
+
+  .resq-loading-right {
+    right: 15px;
+    transform: scale(0.8);
+    transform-origin: right top;
+  }
+
+  .resq-radar {
+    width: 600px;
+    height: 600px;
+  }
+}
+
+@media (max-width: 700px) {
+  .resq-loading-steps,
+  .resq-loading-right,
+  .resq-coordinates,
+  .resq-corner-message,
+  .resq-corner-right {
+    display: none;
+  }
+
+  .resq-radar {
+    width: 470px;
+    height: 470px;
+    min-width: 470px;
+    min-height: 470px;
+  }
+
+  .resq-center {
+    width: 330px;
+  }
+
+  .resq-logo-text {
+    font-size: 44px;
+  }
+
+  .resq-logo-subtitle {
+    font-size: 9px;
+  }
+
+  .resq-tagline {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .resq-loading-top {
+    left: 18px;
+    right: 18px;
+  }
+
+  .resq-loading-bottom {
+    width: 85%;
+    bottom: 25px;
+  }
+}
+/* =========================================================
+   RESQ FINAL DARK RED RADAR OVERRIDES
+========================================================= */
+
+.resq-loading {
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(75, 0, 0, 0.22),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at center,
+      #160303 0%,
+      #080202 55%,
+      #030101 100%
+    );
+}
+
+/* Darker background */
+.resq-bg-glow {
+  width: 650px;
+  height: 650px;
+  background: rgba(120, 0, 0, 0.08);
+  filter: blur(110px);
+}
+
+.resq-bg-grid {
+  opacity: 0.08;
+  background-size: 65px 65px;
+}
+
+/* Smaller radar */
+.resq-radar {
+  width: min(560px, 48vw);
+  height: min(560px, 48vw);
+  min-width: 420px;
+  min-height: 420px;
+  top: 47%;
+}
+
+/* Dark red rings */
+.radar-circle {
+  border-color: rgba(180, 25, 25, 0.28);
+}
+
+.radar-outer {
+  box-shadow:
+    0 0 35px rgba(150, 0, 0, 0.08),
+    inset 0 0 35px rgba(120, 0, 0, 0.06);
+}
+
+.radar-middle {
+  border-color: rgba(190, 25, 25, 0.32);
+}
+
+.radar-inner {
+  border-color: rgba(220, 35, 35, 0.4);
+}
+
+.radar-ticks {
+  border-color: rgba(190, 25, 25, 0.12);
+}
+
+.radar-cross {
+  background: rgba(170, 25, 25, 0.1);
+}
+
+/* Darker radar beam */
+.radar-sweep {
+  background: conic-gradient(
+    from 0deg,
+    rgba(190, 15, 15, 0.48),
+    rgba(130, 0, 0, 0.12) 25deg,
+    transparent 62deg
+  );
+}
+
+/* Location beacons */
+.location-beacon {
+  background: #e52b2b;
+  box-shadow:
+    0 0 7px #e52b2b,
+    0 0 17px rgba(210, 20, 20, 0.6);
+}
+
+.location-beacon span {
+  border-color: rgba(210, 35, 35, 0.35);
+}
+
+/* Smaller center logo */
+.resq-center {
+  width: 300px;
+}
+
+.resq-logo-symbol {
+  margin-bottom: 5px;
+}
+
+.resq-logo-triangle {
+  width: 52px;
+  height: 52px;
+  font-size: 23px;
+}
+
+.resq-logo-triangle::before {
+  border-left-width: 26px;
+  border-right-width: 26px;
+  border-bottom-width: 46px;
+}
+
+.resq-logo-text {
+  font-size: 44px;
+  letter-spacing: 6px;
+}
+
+.resq-logo-subtitle {
+  font-size: 9px;
+  letter-spacing: 1.8px;
+}
+
+.resq-tagline {
+  margin-top: 13px;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+/* Darker progress */
+.resq-progress-track {
+  border-color: rgba(180, 35, 35, 0.35);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.resq-progress-fill {
+  background: linear-gradient(
+    90deg,
+    #710000,
+    #c91818,
+    #ef3737
+  );
+  box-shadow: 0 0 12px rgba(210, 25, 25, 0.6);
+}
+
+/* Smaller screen */
+@media (max-width: 700px) {
+  .resq-radar {
+    width: 400px;
+    height: 400px;
+    min-width: 400px;
+    min-height: 400px;
+  }
+
+  .resq-center {
+    width: 260px;
+  }
+
+  .resq-logo-text {
+    font-size: 38px;
+  }
+}
+.auth-success {
+  width: 100%;
+  padding: 13px 15px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.10);
+  color: #4ade80;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+}
