@@ -44,7 +44,7 @@ useEffect(() => {
       setError("");
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/admin/dashboard",
+        "https://resq-smart-disaster-management-system.onrender.com/api/admin/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ useEffect(() => {
       setFeedbackLoading(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/feedback/admin/all"
+        "https://resq-smart-disaster-management-system.onrender.com/api/feedback/admin/all"
       );
 
       const data = await response.json();
@@ -124,7 +124,7 @@ const fetchShelterRequests = async () => {
     }
 
     const response = await fetch(
-      "http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin",
+      "https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin",
       {
         method: "GET",
         headers: {
@@ -152,7 +152,7 @@ const fetchShelterRequests = async () => {
 const updateShelterRequestStatus = async (requestId, status) => {
   try {
     const response = await fetch(
-      `http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin/${requestId}/status`,
+      `https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin/${requestId}/status`,
       {
         method: "PATCH",
         headers: {

@@ -24,7 +24,7 @@ function ResQAI() {
 
   try {
     const response = await fetch(
-      "http://https://resq-smart-disaster-management-system.onrender.com/api/ai/chat",
+      "https://resq-smart-disaster-management-system.onrender.com/api/ai/chat",
       {
         method: "POST",
         headers: {

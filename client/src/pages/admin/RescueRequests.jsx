@@ -15,13 +15,13 @@ function RescueRequests() {
       setError("");
 
       const [requestsRes, teamsRes] = await Promise.all([
-        fetch("http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin", {
+        fetch("https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
 
-        fetch("http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams", {
+        fetch("https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ function RescueRequests() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin/${id}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -93,7 +93,7 @@ function RescueRequests() {
 
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin/${requestId}/assign-team`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin/${requestId}/assign-team`,
         {
           method: "PATCH",
           headers: {

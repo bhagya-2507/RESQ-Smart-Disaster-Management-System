@@ -224,7 +224,7 @@ const getCurrentLocation = () => {
     }
 
     const response = await fetch(
-      "http://https://resq-smart-disaster-management-system.onrender.com/api/reports",
+      "https://resq-smart-disaster-management-system.onrender.com/api/reports",
       {
         method: "POST",
         headers: {

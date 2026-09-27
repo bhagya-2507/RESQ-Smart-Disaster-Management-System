@@ -14,7 +14,7 @@ function Reports() {
       setError("");
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin",
+        "https://resq-smart-disaster-management-system.onrender.com/api/reports/admin",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ function Reports() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/status`,
         {
           method: "PATCH",
           headers: {

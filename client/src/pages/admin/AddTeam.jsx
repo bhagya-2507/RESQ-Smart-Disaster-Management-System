@@ -92,7 +92,7 @@ function AddTeam() {
       setSaving(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
+        "https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
         {
           method: "POST",
           headers: {

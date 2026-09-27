@@ -24,7 +24,7 @@ function Navbar() {
         if (!token) return;
 
         const response = await fetch(
-          "http://https://resq-smart-disaster-management-system.onrender.com/api/alerts",
+          "https://resq-smart-disaster-management-system.onrender.com/api/alerts",
           {
             headers: {
               Authorization: `Bearer ${token}`,

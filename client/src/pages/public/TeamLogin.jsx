@@ -44,7 +44,7 @@ const password = form.password;
       setLoading(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-team/auth/login",
+        "https://resq-smart-disaster-management-system.onrender.com/api/rescue-team/auth/login",
         {
           method: "POST",
           headers: {

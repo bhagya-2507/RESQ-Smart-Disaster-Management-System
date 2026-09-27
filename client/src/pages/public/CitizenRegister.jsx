@@ -93,7 +93,7 @@ city: "",
 
   try {
     const response = await fetch(
-      "http://https://resq-smart-disaster-management-system.onrender.com/api/auth/register",
+      "https://resq-smart-disaster-management-system.onrender.com/api/auth/register",
       {
         method: "POST",
         headers: {

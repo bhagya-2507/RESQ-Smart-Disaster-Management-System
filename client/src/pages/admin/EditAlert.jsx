@@ -29,7 +29,7 @@ function EditAlert() {
     const loadAlert = async () => {
       try {
         const response = await fetch(
-          "http://https://resq-smart-disaster-management-system.onrender.com/api/alerts",
+          "https://resq-smart-disaster-management-system.onrender.com/api/alerts",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ function EditAlert() {
       setSaving(true);
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/alerts/${id}`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/alerts/${id}`,
         {
           method: "PATCH",
           headers: {

@@ -46,7 +46,7 @@ function CitizenLogin() {
 
     try {
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/auth/login",
+        "https://resq-smart-disaster-management-system.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {

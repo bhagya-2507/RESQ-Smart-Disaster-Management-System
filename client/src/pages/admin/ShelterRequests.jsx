@@ -12,7 +12,7 @@ function ShelterRequests() {
       setLoading(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin",
+        "https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function ShelterRequests() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin/${id}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/admin/${id}/status`,
         {
           method: "PATCH",
           headers: {

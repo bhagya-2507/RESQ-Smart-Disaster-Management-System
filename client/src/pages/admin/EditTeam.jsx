@@ -16,7 +16,7 @@ function EditTeam() {
     const loadTeam = async () => {
       try {
         const response = await fetch(
-          "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
+          "https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ function EditTeam() {
       setSaving(true);
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/${id}`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/${id}`,
         {
           method: "PATCH",
           headers: {

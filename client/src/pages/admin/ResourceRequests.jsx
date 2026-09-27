@@ -14,7 +14,7 @@ function ResourceRequests() {
       setError("");
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin",
+        "https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ function ResourceRequests() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin/${id}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -96,7 +96,7 @@ function ResourceRequests() {
 
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin/${id}/allocate`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/admin/${id}/allocate`,
         {
           method: "POST",
           headers: {

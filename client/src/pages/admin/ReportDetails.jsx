@@ -22,7 +22,7 @@ function ReportDetails() {
       setError("");
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ function ReportDetails() {
       setTeamsLoading(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
+        "https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ function ReportDetails() {
       setAssigning(true);
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/assign-team`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/assign-team`,
         {
           method: "PATCH",
           headers: {
@@ -128,7 +128,7 @@ function ReportDetails() {
   const updateStatus = async (status) => {
     try {
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/reports/admin/${id}/status`,
         {
           method: "PATCH",
           headers: {

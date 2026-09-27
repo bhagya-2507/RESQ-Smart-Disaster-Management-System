@@ -20,7 +20,7 @@ function TeamDashboard() {
       setError("");
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/dashboard",
+        "https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function TeamDashboard() {
       setUpdating(reportId);
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/reports/${reportId}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/reports/${reportId}/status`,
         {
           method: "PATCH",
           headers: {
@@ -122,7 +122,7 @@ function TeamDashboard() {
       setUpdating(requestId);
 
       const response = await fetch(
-        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/requests/${requestId}/status`,
+        `https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/requests/${requestId}/status`,
         {
           method: "PATCH",
           headers: {

@@ -67,7 +67,7 @@ function AddShelter() {
       setLoading(true);
 
       const response = await fetch(
-        "http://https://resq-smart-disaster-management-system.onrender.com/api/shelters",
+        "https://resq-smart-disaster-management-system.onrender.com/api/shelters",
         {
           method: "POST",
           headers: {
