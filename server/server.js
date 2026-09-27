@@ -34,16 +34,16 @@ const app = express();
    CORS
 ===================================================== */
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "https://resq-frontend-mine.vercel.app",
+    "https://resq-frontend-nine.vercel.app"
+  ],
+  credentials: true
+}));
 
 /* =====================================================
    BODY PARSER
