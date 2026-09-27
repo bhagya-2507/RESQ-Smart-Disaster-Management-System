@@ -24,7 +24,7 @@ function ShelterRequest() {
         setError("");
 
         const response = await fetch(
-          "http://localhost:5000/api/shelters/available",
+          "http://https://resq-smart-disaster-management-system.onrender.com/api/shelters/available",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ function ShelterRequest() {
       setSubmitting(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/shelter-requests",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests",
         {
           method: "POST",
           headers: {

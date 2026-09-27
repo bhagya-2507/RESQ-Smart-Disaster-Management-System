@@ -16,7 +16,7 @@ function Resources() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/resources",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/resources",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function Resources() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/resources/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/resources/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -75,7 +75,7 @@ function Resources() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/resources/${id}/status`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/resources/${id}/status`,
         {
           method: "PATCH",
           headers: {

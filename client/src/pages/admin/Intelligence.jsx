@@ -36,13 +36,13 @@ function Intelligence() {
     const loadData = async () => {
       try {
         const [reportsRes, requestsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/reports/admin", {
+          fetch("http://https://resq-smart-disaster-management-system.onrender.com/api/reports/admin", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }),
 
-          fetch("http://localhost:5000/api/rescue-requests/admin", {
+          fetch("http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/admin", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

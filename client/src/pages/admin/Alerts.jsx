@@ -15,7 +15,7 @@ function Alerts() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/alerts",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/alerts",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ function Alerts() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/alerts/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/alerts/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -76,7 +76,7 @@ function Alerts() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/alerts/${id}/status`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/alerts/${id}/status`,
         {
           method: "PATCH",
           headers: {

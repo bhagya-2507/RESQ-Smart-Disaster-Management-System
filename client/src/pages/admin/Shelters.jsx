@@ -15,7 +15,7 @@ function Shelters() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/shelters",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/shelters",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ function Shelters() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shelters/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/shelters/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -76,7 +76,7 @@ function Shelters() {
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shelters/${id}/status`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/shelters/${id}/status`,
         {
           method: "PATCH",
           headers: {

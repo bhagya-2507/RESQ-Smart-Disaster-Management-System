@@ -45,7 +45,7 @@ function AdminLogin() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/admin/auth/login",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/admin/auth/login",
         {
           method: "POST",
           headers: {

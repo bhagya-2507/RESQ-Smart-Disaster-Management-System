@@ -200,7 +200,7 @@ function RescueRequest() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/rescue-requests",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests",
         {
           method: "POST",
           headers: {

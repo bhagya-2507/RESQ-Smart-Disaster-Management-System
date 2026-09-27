@@ -29,7 +29,7 @@ function EditShelter() {
     const loadShelter = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/shelters",
+          "http://https://resq-smart-disaster-management-system.onrender.com/api/shelters",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -127,7 +127,7 @@ function EditShelter() {
       setSaving(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/shelters/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/shelters/${id}`,
         {
           method: "PATCH",
           headers: {

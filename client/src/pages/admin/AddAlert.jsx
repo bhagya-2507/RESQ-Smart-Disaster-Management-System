@@ -49,7 +49,7 @@ function AddAlert() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/alerts",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/alerts",
         {
           method: "POST",
           headers: {

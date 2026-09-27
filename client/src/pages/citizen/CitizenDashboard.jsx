@@ -33,7 +33,7 @@ const [showNotifications, setShowNotifications] = useState(false);
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/reports/my",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/reports/my",
         {
           method: "GET",
           headers: {
@@ -65,7 +65,7 @@ const [showNotifications, setShowNotifications] = useState(false);
         return;
       }
       const response = await fetch(
-        "http://localhost:5000/api/rescue-requests/my",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-requests/my",
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -95,7 +95,7 @@ const [showNotifications, setShowNotifications] = useState(false);
     }
 
     const response = await fetch(
-      "http://localhost:5000/api/resource-requests/my",
+      "http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/my",
       {
         method: "GET",
         headers: {
@@ -133,7 +133,7 @@ const fetchMyShelterRequests = async () => {
     }
 
     const response = await fetch(
-      "http://localhost:5000/api/shelter-requests/my",
+      "http://https://resq-smart-disaster-management-system.onrender.com/api/shelter-requests/my",
       {
         method: "GET",
         headers: {
@@ -173,7 +173,7 @@ const fetchMyShelterRequests = async () => {
     }
 
     const response = await fetch(
-      "http://localhost:5000/api/alerts",
+      "http://https://resq-smart-disaster-management-system.onrender.com/api/alerts",
       {
         headers: {
           Authorization: `Bearer ${token}`,

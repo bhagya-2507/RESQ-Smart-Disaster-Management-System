@@ -15,7 +15,7 @@ function RescueTeams() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/rescue-teams",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ function RescueTeams() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/rescue-teams/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -83,7 +83,7 @@ function RescueTeams() {
   const updateAvailability = async (id, availability) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/rescue-teams/${id}/availability`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/rescue-teams/${id}/availability`,
         {
           method: "PATCH",
           headers: {

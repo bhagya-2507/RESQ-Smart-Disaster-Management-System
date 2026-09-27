@@ -46,7 +46,7 @@ function CitizenLogin() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {

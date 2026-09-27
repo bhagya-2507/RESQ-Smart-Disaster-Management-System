@@ -37,7 +37,7 @@ function ResourceRequest() {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/resource-requests/catalog",
+          "http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests/catalog",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -141,7 +141,7 @@ function ResourceRequest() {
       setSubmitting(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/resource-requests",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/resource-requests",
         {
           method: "POST",
           headers: {

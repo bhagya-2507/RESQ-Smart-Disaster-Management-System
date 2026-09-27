@@ -52,7 +52,7 @@ function AddResource() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/resources",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/resources",
         {
           method: "POST",
           headers: {

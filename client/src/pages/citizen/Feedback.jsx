@@ -20,7 +20,7 @@ const Feedback = ({ citizenId, rescueRequestId }) => {
       setMessage("");
 
       const response = await fetch(
-        "http://localhost:5000/api/feedback",
+        "http://https://resq-smart-disaster-management-system.onrender.com/api/feedback",
         {
           method: "POST",
           headers: {

@@ -28,7 +28,7 @@ function EditResource() {
     const loadResource = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/resources",
+          "http://https://resq-smart-disaster-management-system.onrender.com/api/resources",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ function EditResource() {
       setSaving(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/resources/${id}`,
+        `http://https://resq-smart-disaster-management-system.onrender.com/api/resources/${id}`,
         {
           method: "PATCH",
           headers: {
