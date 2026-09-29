@@ -1,7 +1,8 @@
+
 const bcrypt = require("bcryptjs");
 const Citizen = require("../models/citizen");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
 const registerCitizen = async (req, res) => {
   try {
@@ -14,22 +15,13 @@ const registerCitizen = async (req, res) => {
       city,
     } = req.body;
 
-    // Required fields
-    if (
-      !full_name ||
-      !email ||
-      !mobile ||
-      !password ||
-      !state ||
-      !city
-    ) {
+    if (!full_name || !email || !mobile || !password || !state || !city) {
       return res.status(400).json({
         success: false,
         message: "All fields are required.",
       });
     }
 
-    // Name validation
     if (full_name.trim().length < 2) {
       return res.status(400).json({
         success: false,
@@ -37,7 +29,6 @@ const registerCitizen = async (req, res) => {
       });
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -47,7 +38,6 @@ const registerCitizen = async (req, res) => {
       });
     }
 
-    // Mobile validation
     if (!/^[0-9]{10}$/.test(mobile)) {
       return res.status(400).json({
         success: false,
@@ -55,7 +45,6 @@ const registerCitizen = async (req, res) => {
       });
     }
 
-    // Password validation
     if (password.length < 8) {
       return res.status(400).json({
         success: false,
@@ -91,7 +80,6 @@ const registerCitizen = async (req, res) => {
       });
     }
 
-    // Check existing citizen
     const existingCitizen = await Citizen.findOne({
       email: email.toLowerCase().trim(),
     });
@@ -103,10 +91,8 @@ const registerCitizen = async (req, res) => {
       });
     }
 
-    // Hash password
     const password_hash = await bcrypt.hash(password, 12);
 
-    // Create citizen
     const citizen = await Citizen.create({
       full_name: full_name.trim(),
       email: email.toLowerCase().trim(),
@@ -138,7 +124,6 @@ const registerCitizen = async (req, res) => {
     });
   }
 };
-const jwt = require("jsonwebtoken");
 
 const loginCitizen = async (req, res) => {
   try {
@@ -230,12 +215,16 @@ const forgotPassword = async (req, res) => {
 
     const citizen = await Citizen.findOne({ email });
 
-    // Same response prevents revealing whether an email is registered.
+    // Avoid revealing whether an email is registered.
     if (!citizen) {
       return res.status(200).json({
         success: true,
         message: "If this email is registered, an OTP will be sent.",
       });
+    }
+
+    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+      throw new Error("Brevo API environment variables are missing.");
     }
 
     const otp = crypto.randomInt(100000, 1000000).toString();
@@ -245,27 +234,44 @@ const forgotPassword = async (req, res) => {
 
     await citizen.save();
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: Number(process.env.SMTP_PORT) === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
     try {
-      await transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: citizen.email,
-        subject: "RESQ - Password Reset OTP",
-        text: `Your RESQ password reset OTP is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
-      });
+      const emailResponse = await fetch(
+        "https://api.brevo.com/v3/smtp/email",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "api-key": process.env.BREVO_API_KEY,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            sender: {
+              name: process.env.BREVO_SENDER_NAME || "RESQ",
+              email: process.env.BREVO_SENDER_EMAIL,
+            },
+            to: [{ email: citizen.email }],
+            subject: "RESQ - Password Reset OTP",
+            textContent:
+              `Your RESQ password reset OTP is ${otp}. ` +
+              "It expires in 10 minutes. " +
+              "If you did not request this, ignore this email.",
+          }),
+        }
+      );
+
+      if (!emailResponse.ok) {
+        const details = await emailResponse.text();
+
+        throw new Error(
+          `Brevo email API failed (${emailResponse.status}): ${details}`
+        );
+      }
     } catch (emailError) {
       citizen.reset_otp_hash = null;
       citizen.reset_otp_expires = null;
+
       await citizen.save();
+
       throw emailError;
     }
 
@@ -275,6 +281,7 @@ const forgotPassword = async (req, res) => {
     });
   } catch (error) {
     console.error("Forgot password error:", error.message);
+
     return res.status(500).json({
       success: false,
       message: "Unable to send OTP right now. Please try again later.",
@@ -301,7 +308,6 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    // Match the password rules used during registration
     if (
       newPassword.length < 8 ||
       !/[A-Z]/.test(newPassword) ||
@@ -350,10 +356,12 @@ const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Password reset successfully. Please log in with your new password.",
+      message:
+        "Password reset successfully. Please log in with your new password.",
     });
   } catch (error) {
     console.error("Reset password error:", error.message);
+
     return res.status(500).json({
       success: false,
       message: "Unable to reset password right now. Please try again.",
