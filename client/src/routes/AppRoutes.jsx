@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/public/Home";
 import CitizenLogin from "../pages/public/CitizenLogin";
 import CitizenRegister from "../pages/public/CitizenRegister";
+import ForgotPassword from "../pages/public/ForgotPassword";
+import ResetPassword from "../pages/public/ResetPassword";
 import TeamLogin from "../pages/public/TeamLogin";
 
 import AdminLogin from "../pages/admin/AdminLogin";
@@ -46,6 +48,15 @@ function AppRoutes() {
         path="/citizen-login"
         element={<CitizenLogin />}
       />
+      <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
+
+<Route
+  path="/reset-password"
+  element={<ResetPassword />}
+/>
 
       <Route
         path="/citizen-register"

@@ -33,6 +33,15 @@ const citizenSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+          reset_otp_hash: {
+      type: String,
+      default: null,
+    },
+
+    reset_otp_expires: {
+      type: Date,
+      default: null,
+    },
     },
 
     city: {
