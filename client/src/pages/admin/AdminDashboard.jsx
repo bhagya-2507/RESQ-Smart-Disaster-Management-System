@@ -10,6 +10,7 @@ function AdminDashboard() {
 
   const [reports, setReports] = useState([]);
   const [rescueRequests, setRescueRequests] = useState([]);
+  const [citizens, setCitizens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
@@ -62,6 +63,7 @@ useEffect(() => {
 
       setReports(data.reports || []);
       setRescueRequests(data.rescueRequests || []);
+      setCitizens(data.citizens || []);
     } catch (error) {
       console.error("Admin dashboard error:", error);
       setError("Unable to connect to RESQ server.");
@@ -614,12 +616,82 @@ const notificationCount = notifications.length;
 </strong>
             </div>
 
+<div className="admin-stat-card">
+  <span className="admin-stat-icon blue">
+    👥
+  </span>
+
+  <div>
+    <small>REGISTERED CITIZENS</small>
+    <strong>
+      {String(citizens.length).padStart(2, "0")}
+    </strong>
+  </div>
+</div>
 
 
       </div>
 
         </section>
 
+{/* REGISTERED CITIZENS */}
+<section className="admin-panel">
+  <div className="admin-panel-header">
+    <div>
+      <span>CITIZEN MANAGEMENT</span>
+      <h2>Registered Citizens</h2>
+    </div>
+
+    <span className="admin-notification-count">
+      {citizens.length} Citizens
+    </span>
+  </div>
+
+  <div className="admin-report-list">
+    {loading ? (
+      <div className="admin-empty">
+        Loading registered citizens...
+      </div>
+    ) : citizens.length === 0 ? (
+      <div className="admin-empty">
+        No registered citizens found.
+      </div>
+    ) : (
+      citizens.map((citizen) => (
+        <div
+          className="admin-report-row"
+          key={citizen._id}
+        >
+          <div className="admin-report-icon">
+            👤
+          </div>
+
+          <div className="admin-report-info">
+            <strong>
+              {citizen.full_name || "Unknown Citizen"}
+            </strong>
+
+            <span>
+              ✉️ {citizen.email}
+            </span>
+
+            <span>
+              📱 {citizen.mobile}
+            </span>
+
+            <span>
+              📍 {citizen.city}, {citizen.state}
+            </span>
+          </div>
+
+          <span className="admin-report-status">
+            {citizen.status || "Active"}
+          </span>
+        </div>
+      ))
+    )}
+  </div>
+</section>
  {/* =========================================
     FEEDBACK ANALYTICS
 ========================================= */}
