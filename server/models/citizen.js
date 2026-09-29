@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const citizenSchema = new mongoose.Schema(
@@ -33,7 +34,15 @@ const citizenSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-          reset_otp_hash: {
+    },
+
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    reset_otp_hash: {
       type: String,
       default: null,
     },
@@ -41,13 +50,6 @@ const citizenSchema = new mongoose.Schema(
     reset_otp_expires: {
       type: Date,
       default: null,
-    },
-    },
-
-    city: {
-      type: String,
-      required: true,
-      trim: true,
     },
 
     profile_image: {
