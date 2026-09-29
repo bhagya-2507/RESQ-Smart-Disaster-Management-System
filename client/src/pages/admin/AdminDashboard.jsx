@@ -647,7 +647,7 @@ const notificationCount = notifications.length;
     </span>
   </div>
 
-  <div className="admin-report-list">
+  <div className="admin-report-list admin-citizens-list">
     {loading ? (
       <div className="admin-empty">
         Loading registered citizens...
@@ -658,15 +658,13 @@ const notificationCount = notifications.length;
       </div>
     ) : (
       citizens.map((citizen) => (
-        <div
-          className="admin-report-row"
-          key={citizen._id}
-        >
+        <div className="admin-report-info admin-citizen-info">
+  
           <div className="admin-report-icon">
             👤
           </div>
 
-          <div className="admin-report-info">
+          <div className="admin-report-info admin-citizen-info">
             <strong>
               {citizen.full_name || "Unknown Citizen"}
             </strong>

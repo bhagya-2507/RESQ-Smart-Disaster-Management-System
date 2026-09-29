@@ -5676,3 +5676,62 @@
     gap: 7px;
   }
 }
+
+/* Registered Citizens Scroll */
+.admin-citizens-list {
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #111827;
+}
+
+.admin-citizen-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 4px;
+  min-height: 100px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.admin-citizen-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.admin-citizen-info strong {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.admin-citizen-info span {
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.admin-citizens-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-citizens-list::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .admin-citizen-row {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .admin-citizen-row .admin-report-status {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
