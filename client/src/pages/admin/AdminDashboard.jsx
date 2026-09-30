@@ -11,6 +11,10 @@ function AdminDashboard() {
   const [reports, setReports] = useState([]);
   const [rescueRequests, setRescueRequests] = useState([]);
   const [citizens, setCitizens] = useState([]);
+  
+const [hazardHabitations, setHazardHabitations] = useState([]);
+const [hazardLoading, setHazardLoading] = useState(true);
+const [hazardError, setHazardError] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
@@ -75,6 +79,48 @@ useEffect(() => {
   fetchDashboardData();
 }, [token]);
 
+useEffect(() => {
+  const fetchHazardOverview = async () => {
+    try {
+      setHazardLoading(true);
+      setHazardError("");
+
+      const response = await fetch(
+        "https://resq-smart-disaster-management-system.onrender.com/api/hazard-planning/overview",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("resq_token")}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Unable to load hazard overview."
+        );
+      }
+
+      const records = Array.isArray(data.habitations)
+        ? data.habitations
+        : Array.isArray(data.data?.habitations)
+        ? data.data.habitations
+        : Array.isArray(data.records)
+        ? data.records
+        : [];
+
+      setHazardHabitations(records);
+    } catch (err) {
+      console.error("Hazard overview error:", err);
+      setHazardError(err.message || "Hazard data unavailable.");
+    } finally {
+      setHazardLoading(false);
+    }
+  };
+
+  fetchHazardOverview();
+}, []);
 // Fetch feedback analytics
 useEffect(() => {
   const fetchFeedbackAnalytics = async () => {
@@ -201,6 +247,22 @@ const updateShelterRequestStatus = async (requestId, status) => {
   const pendingRequests = rescueRequests.filter(
     (request) => request.status === "Pending"
   ).length;
+  
+const redZoneCount = hazardHabitations.filter(
+  (item) => item.risk_level?.toLowerCase() === "red"
+).length;
+
+const immediateRelocationCount = hazardHabitations.filter(
+  (item) =>
+    item.immediate_relocation_required === true ||
+    item.relocation_priority === "Immediate"
+).length;
+
+const vulnerablePopulation = hazardHabitations.reduce(
+  (total, item) =>
+    total + Math.max(0, Number(item.vulnerable_people) || 0),
+  0
+);
 
   const resolvedCases =
   reports.filter(
@@ -641,6 +703,155 @@ const notificationCount = notifications.length;
 
         </section>
 
+{/* HAZARD INTELLIGENCE SUMMARY */}
+<section className="admin-panel" style={{ marginBottom: 24 }}>
+  <div className="admin-panel-header">
+    <div>
+      <span>HAZARD INTELLIGENCE</span>
+      <h2>Hazard & Relocation Overview</h2>
+    </div>
+
+    <Link to="/admin/hazard-planning">
+      Open Planning →
+    </Link>
+  </div>
+
+  {hazardLoading ? (
+    <div className="admin-empty">Loading hazard assessment...</div>
+  ) : hazardError ? (
+    <div className="admin-error">{hazardError}</div>
+  ) : (
+    <>
+      <div className="admin-stats">
+        <div className="admin-stat-card">
+          <span className="admin-stat-icon red">⚠</span>
+          <div>
+            <small>RED-ZONE HABITATIONS</small>
+            <strong>{redZoneCount}</strong>
+          </div>
+        </div>
+
+        <div className="admin-stat-card">
+          <span className="admin-stat-icon orange">🚨</span>
+          <div>
+            <small>IMMEDIATE RELOCATION</small>
+            <strong>{immediateRelocationCount}</strong>
+          </div>
+        </div>
+
+        <div className="admin-stat-card">
+          <span className="admin-stat-icon blue">👥</span>
+          <div>
+            <small>VULNERABLE PEOPLE</small>
+            <strong>{vulnerablePopulation.toLocaleString("en-IN")}</strong>
+          </div>
+        </div>
+      </div>
+      
+{/* PRIORITY RELOCATION QUEUE */}
+<div style={{ marginTop: 24 }}>
+  <div className="admin-panel-header">
+    <div>
+      <span>RELOCATION PRIORITIES</span>
+      <h2>Habitations Requiring Attention</h2>
+    </div>
+    <Link to="/admin/hazard-planning">
+      View All →
+    </Link>
+  </div>
+
+  {hazardHabitations.length === 0 ? (
+    <p>No habitation assessment records available.</p>
+  ) : (
+    [...hazardHabitations]
+      .sort((a, b) => {
+        const priorityOrder = {
+          Immediate: 4,
+          "Short-term": 3,
+          "Medium-term": 2,
+          Monitor: 1,
+        };
+
+        const priorityDifference =
+          (priorityOrder[b.relocation_priority] || 0) -
+          (priorityOrder[a.relocation_priority] || 0);
+
+        if (priorityDifference !== 0) {
+          return priorityDifference;
+        }
+
+        return (Number(b.risk_score) || 0) -
+          (Number(a.risk_score) || 0);
+      })
+      .slice(0, 5)
+      .map((item) => (
+        <div
+          key={item._id || item.id || item.habitation_name}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 12,
+            flexWrap: "wrap",
+            padding: "14px 0",
+            borderBottom: "1px solid rgba(148,163,184,0.2)",
+          }}
+        >
+          <div>
+            <strong>
+              {item.habitation_name || "Unnamed Habitation"}
+            </strong>
+            <p style={{ margin: "5px 0", opacity: 0.75 }}>
+              {item.location || item.city || "Location unavailable"}
+              {" · "}
+              {Number(item.vulnerable_people) || 0} vulnerable people
+            </p>
+            <small>
+              Hazard: {item.hazard_type || "Not specified"}
+              {" · "}
+              Risk score: {Number(item.risk_score) || 0}/100
+            </small>
+          </div>
+
+          <div style={{ textAlign: "right" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "5px 10px",
+                borderRadius: 20,
+                fontSize: 12,
+                fontWeight: 700,
+                background:
+                  item.relocation_priority === "Immediate"
+                    ? "rgba(239,68,68,0.16)"
+                    : item.relocation_priority === "Short-term"
+                    ? "rgba(249,115,22,0.16)"
+                    : "rgba(148,163,184,0.15)",
+                color:
+                  item.relocation_priority === "Immediate"
+                    ? "#ef4444"
+                    : item.relocation_priority === "Short-term"
+                    ? "#f97316"
+                    : "inherit",
+              }}
+            >
+              {item.relocation_priority || "Monitor"}
+            </span>
+          </div>
+        </div>
+      ))
+  )}
+</div>
+
+      {hazardHabitations.length === 0 && (
+        <p style={{ marginTop: 12 }}>
+          No habitation records were returned by the hazard overview API.
+          Confirm its response format if records already exist.
+        </p>
+      )}
+    </>
+  )}
+</section>
 {/* REGISTERED CITIZENS */}
 <section className="admin-panel">
   <div className="admin-panel-header">

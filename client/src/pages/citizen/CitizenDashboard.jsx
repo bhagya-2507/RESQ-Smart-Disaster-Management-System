@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import ResQAI from "../../components/common/ResQAI";
 import Feedback from "./Feedback";
 
+const RESQ_API_BASE = import.meta.env.VITE_API_URL || (window.location.hostname === "localhost" ? "http://localhost:5000" : "https://resq-smart-disaster-management-system.onrender.com");
+
 
 
 function CitizenDashboard() {
@@ -18,6 +20,9 @@ const [shelterRequests, setShelterRequests] = useState([]);
 const [shelterRequestsLoading, setShelterRequestsLoading] = useState(true);
 const [alerts, setAlerts] = useState([]);
 const [alertsLoading, setAlertsLoading] = useState(true);
+const [hazardData, setHazardData] = useState({ habitations: [], shelters: [], notice: "" });
+const [hazardLoading, setHazardLoading] = useState(true);
+const [hazardError, setHazardError] = useState("");
 const [showNotifications, setShowNotifications] = useState(false);
 
   const navigate = useNavigate();
@@ -161,6 +166,32 @@ const fetchMyShelterRequests = async () => {
 };
 
 
+  const fetchCitizenHazardPlanning = async () => {
+    try {
+      setHazardLoading(true);
+      setHazardError("");
+      const token = localStorage.getItem("resq_token");
+      if (!token) return;
+      const response = await fetch(`${RESQ_API_BASE}/api/hazard-planning/citizen-overview`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = await response.json();
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Hazard information is temporarily unavailable.");
+      }
+      setHazardData({
+        habitations: Array.isArray(result.habitations) ? result.habitations : [],
+        shelters: Array.isArray(result.shelters) ? result.shelters : [],
+        notice: result.notice || "Risk records are planning information and must be verified by authorized officials.",
+      });
+    } catch (error) {
+      console.error("Citizen hazard planning error:", error);
+      setHazardError(error.message || "Unable to load hazard information.");
+    } finally {
+      setHazardLoading(false);
+    }
+  };
+
   const fetchActiveAlerts = async () => {
   try {
     setAlertsLoading(true);
@@ -214,6 +245,7 @@ const fetchMyShelterRequests = async () => {
   fetchMyResourceRequests();
   fetchMyShelterRequests();
   fetchActiveAlerts();
+  fetchCitizenHazardPlanning();
 }, []);
   const activeReports = reports.filter(
     (report) =>
@@ -374,6 +406,95 @@ const fetchMyShelterRequests = async () => {
 
         </section>
 
+
+        {/* HAZARD ZONE & RELOCATION GUIDANCE */}
+        <section
+  className="citizen-hazard-panel"
+  aria-labelledby="citizen-hazard-heading" >
+
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-between", gap: "12px", marginBottom: "16px" }}>
+            <div>
+              <span style={{ display: "inline-block", fontSize: "11px", fontWeight: 800, letterSpacing: "1.4px", color: "#52677d", marginBottom: "6px" }}>PUBLIC SAFETY · HAZARD AWARENESS</span>
+              <h2 id="citizen-hazard-heading" style={{ margin: 0, color: "#10243a", fontSize: "clamp(20px, 2vw, 26px)" }}>Hazard Zones & Relocation Guidance</h2>
+              <p style={{ margin: "7px 0 0", color: "#52677d", maxWidth: "720px", lineHeight: 1.6 }}>View admin-recorded risk areas, vulnerable habitation information and currently listed shelter capacity.</p>
+            </div>
+            <Link to="/citizen/shelter-request" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "10px 14px", borderRadius: "10px", background: "#0f3b61", color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "13px" }}>Request Shelter →</Link>
+          </div>
+          <div style={{ padding: "11px 13px", borderRadius: "10px", background: "#fff7df", border: "1px solid #f0d58b", color: "#76530b", fontSize: "12px", lineHeight: 1.55, marginBottom: "16px" }}>
+            <strong>Important:</strong> This is decision-support information based on records entered in RESQ, not an official evacuation order or a guarantee of safety. Follow instructions from authorized disaster-management officials.
+          </div>
+          {hazardLoading ? (
+            <p style={{ color: "#52677d" }}>Loading hazard and shelter information…</p>
+          ) : hazardError ? (
+            <div role="status" style={{ padding: "12px", borderRadius: "10px", background: "#fff0f0", color: "#9f2525", fontSize: "13px" }}>Hazard information could not be loaded. {hazardError}</div>
+          ) : (
+            <>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "12px", marginBottom: "16px" }}>
+                {[
+                  { label: "Red risk areas", count: hazardData.habitations.filter((item) => String(item.risk_level || item.riskLevel || "").toLowerCase() === "red").length, color: "#b42332", bg: "#fff0f1" },
+                  { label: "Orange risk areas", count: hazardData.habitations.filter((item) => String(item.risk_level || item.riskLevel || "").toLowerCase() === "orange").length, color: "#b45309", bg: "#fff4e8" },
+                  { label: "Shelters with listed space", count: hazardData.shelters.filter((item) => Number(item.available_capacity ?? Math.max(0, Number(item.capacity || 0) - Number(item.occupied || 0))) > 0).length, color: "#166534", bg: "#edf9f0" },
+                ].map((metric) => <div key={metric.label} style={{ padding: "14px", borderRadius: "12px", background: metric.bg, border: `1px solid ${metric.color}22` }}><div style={{ color: metric.color, fontSize: "12px", fontWeight: 700 }}>{metric.label}</div><strong style={{ display: "block", color: metric.color, fontSize: "27px", marginTop: "4px" }}>{metric.count}</strong></div>)}
+              </div>
+              {hazardData.habitations.length === 0 ? (
+                <div style={{ padding: "18px", textAlign: "center", background: "#f7f9fc", borderRadius: "12px", color: "#52677d" }}><strong>No hazard-zone records are currently available.</strong><p style={{ margin: "6px 0 0", fontSize: "13px" }}>When the administration records a habitation assessment, relevant information will appear here.</p></div>
+              ) : (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px" }}>
+                  {hazardData.habitations.slice(0, 6).map((item) => {
+                    const risk = String(item.risk_level || item.riskLevel || "Unclassified");
+                    const normalizedRisk = risk.toLowerCase();
+                    const color = normalizedRisk === "red" ? "#b42332" : normalizedRisk === "orange" ? "#b45309" : normalizedRisk === "yellow" ? "#8a6d00" : "#386b4a";
+                    const bg = normalizedRisk === "red" ? "#fff0f1" : normalizedRisk === "orange" ? "#fff4e8" : normalizedRisk === "yellow" ? "#fffbe5" : "#edf9f0";
+                    const name = item.habitation_name || item.name || "Registered habitation";
+                    const population = Number(item.total_population ?? item.population ?? 0);
+                    const vulnerable = Number(item.vulnerable_people ?? item.vulnerableCount ?? 0);
+                    return <article key={item._id || `${name}-${item.city || item.location}`} style={{ border: "1px solid #dbe4ee", borderRadius: "12px", padding: "15px", background: "#fff" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", alignItems: "flex-start" }}><h3 style={{ margin: 0, fontSize: "15px", color: "#142b42" }}>{name}</h3><span style={{ whiteSpace: "nowrap", padding: "4px 8px", borderRadius: "999px", background: bg, color, fontSize: "11px", fontWeight: 800 }}>{risk} risk</span></div>
+                      <p style={{ margin: "7px 0 10px", color: "#607286", fontSize: "12px" }}>📍 {[item.location, item.city, item.state].filter(Boolean).join(", ") || "Location not specified"}</p>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", color: "#34495e", fontSize: "12px" }}><span>Population: <strong>{population.toLocaleString()}</strong></span><span>Vulnerable: <strong>{vulnerable.toLocaleString()}</strong></span></div>
+                      <div style={{ marginTop: "11px", fontSize: "12px", lineHeight: 1.5, color: normalizedRisk === "red" ? "#9f2525" : "#52677d" }}>{item.immediate_relocation_required ? "Immediate relocation assessment flagged by administration." : "Follow local authority updates and monitor official guidance."}</div>
+                      {item.hazard_type && <small style={{ display: "block", marginTop: "7px", color: "#607286" }}>Hazard: {item.hazard_type}</small>}
+                    </article>;
+                  })}
+                </div>
+              )}
+              <div style={{ marginTop: "17px" }}>
+                <h3 style={{ color: "#142b42", fontSize: "16px", margin: "0 0 10px" }}>Shelters with recorded availability</h3>
+                {hazardData.shelters.filter((item) => Number(item.available_capacity ?? Math.max(0, Number(item.capacity || 0) - Number(item.occupied || 0))) > 0).length === 0 ? (
+                  <p style={{ padding: "12px", borderRadius: "10px", background: "#f7f9fc", color: "#607286", fontSize: "13px" }}>No available capacity is currently listed. Contact the relevant authorities before travelling.</p>
+                ) : (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "10px" }}>
+                    {hazardData.shelters.filter((item) => Number(item.available_capacity ?? Math.max(0, Number(item.capacity || 0) - Number(item.occupied || 0))) > 0).slice(0, 4).map((shelter) => <div key={shelter._id || shelter.shelter_name} style={{ padding: "12px", border: "1px solid #dbe4ee", borderRadius: "10px", background: "#fff" }}><strong style={{ color: "#142b42", fontSize: "13px" }}>{shelter.shelter_name || shelter.name || "Emergency shelter"}</strong><div style={{ marginTop: "5px", color: "#607286", fontSize: "12px" }}>{[shelter.location, shelter.city, shelter.state].filter(Boolean).join(", ")}</div><div style={{ marginTop: "7px", color: "#166534", fontSize: "12px", fontWeight: 800 }}>{Number(shelter.available_capacity ?? Math.max(0, Number(shelter.capacity || 0) - Number(shelter.occupied || 0))).toLocaleString()} listed places available</div></div>)}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </section>
+        
+<div className="admin-panel" style={{ padding: 16, marginTop: 16 }}>
+  <h3>Hazard Awareness & Safety</h3>
+
+  <p>
+    Check official disaster alerts and follow instructions
+    from local disaster-management authorities.
+  </p>
+
+  <div style={{ marginTop: 12 }}>
+    <strong>Before relocating:</strong>
+    <ul>
+      <li>Confirm evacuation instructions from officials.</li>
+      <li>Check shelter availability before travelling.</li>
+      <li>Keep essential medicines and identification ready.</li>
+      <li>Help children, older adults and people with disabilities.</li>
+    </ul>
+  </div>
+
+  <p style={{ marginTop: 12 }}>
+    <strong>Emergency:</strong> Contact India's emergency
+    response number 112 when immediate assistance is required.
+  </p>
+</div>
 
         {/* STAT CARDS */}
         {/* STAT CARDS */}

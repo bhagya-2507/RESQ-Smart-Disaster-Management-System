@@ -3965,3 +3965,55 @@
     min-height: 72px;
   }
 }
+
+/* RESQ Citizen Hazard & Relocation panel */
+.citizen-hazard-panel {
+  margin: 0 0 24px !important;
+  padding: 22px !important;
+  border-radius: 18px !important;
+  border: 1px solid #334155 !important;
+  background: linear-gradient(135deg, #111c2d, #0b1220) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24) !important;
+  color: #e2e8f0 !important;
+}
+
+.citizen-hazard-panel #citizen-hazard-heading {
+  color: #f8fafc !important;
+}
+
+.citizen-hazard-panel p {
+  color: #cbd5e1 !important;
+}
+
+.citizen-hazard-panel > div:nth-child(2) {
+  background: #332b16 !important;
+  border: 1px solid #806323 !important;
+  color: #fde68a !important;
+}
+
+.citizen-hazard-panel [role="status"] {
+  background: #3b1720 !important;
+  border: 1px solid #7f2937 !important;
+  color: #fecdd3 !important;
+}
+
+.citizen-hazard-panel article,
+.citizen-hazard-panel article h3,
+.citizen-hazard-panel article p,
+.citizen-hazard-panel article div,
+.citizen-hazard-panel article small {
+  background-color: #172437 !important;
+  color: #e2e8f0 !important;
+}
+
+.citizen-hazard-panel article {
+  border-color: #334155 !important;
+}
+
+.citizen-hazard-panel a {
+  transition: filter 0.2s ease;
+}
+
+.citizen-hazard-panel a:hover {
+  filter: brightness(1.12);
+}

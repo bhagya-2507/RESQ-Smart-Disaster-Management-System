@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const vulnerableHabitationSchema = new mongoose.Schema(
@@ -56,11 +57,37 @@ const vulnerableHabitationSchema = new mongoose.Schema(
         "Other",
       ],
     },
+
+    // Existing risk field — retained for compatibility
     risk_level: {
       type: String,
       enum: ["Red", "Orange", "Yellow", "Green"],
       default: "Orange",
     },
+
+    // New decision-support fields
+    risk_score: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
+    },
+    relocation_priority: {
+      type: String,
+      enum: [
+        "Immediate",
+        "Short-term",
+        "Medium-term",
+        "Monitor",
+      ],
+      default: "Monitor",
+    },
+    relocation_recommendation: {
+      type: String,
+      trim: true,
+      default: "Assessment pending",
+    },
+
     immediate_relocation_required: {
       type: Boolean,
       default: false,

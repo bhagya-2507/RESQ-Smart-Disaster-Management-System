@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:5000/api"
+  : "https://resq-smart-disaster-management-system.onrender.com/api";
+
 function AdminIncidentMap({
   reports = [],
   rescueRequests = [],
@@ -11,6 +15,35 @@ function AdminIncidentMap({
   const markerLayerRef = useRef(null);
 
   const [mappedCount, setMappedCount] = useState(0);
+  const [habitations, setHabitations] = useState([]);
+
+  // Load verified habitation risk records without interrupting the incident map.
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadHabitations = async () => {
+      try {
+        const token = localStorage.getItem("resq_token");
+        if (!token) return;
+
+        const response = await fetch(`${API_BASE_URL}/hazard-planning/overview`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) return;
+
+        const result = await response.json();
+        if (!cancelled) {
+          setHabitations(Array.isArray(result.habitations) ? result.habitations : []);
+        }
+      } catch (error) {
+        // Keep existing incident/rescue markers usable if the optional endpoint fails.
+        console.warn("RESQ map: habitation risk data unavailable.", error);
+      }
+    };
+
+    loadHabitations();
+    return () => { cancelled = true; };
+  }, []);
 
   // =====================================================
   // CITY FALLBACK COORDINATES
@@ -347,9 +380,60 @@ function AdminIncidentMap({
         count++;
       }
 
+      // =================================================
+      // 8. VULNERABLE HABITATION / HAZARD ZONE OVERLAYS
+      // Use saved coordinates only; never invent a habitation location.
+      // =================================================
+      let habitationCount = 0;
+
+      for (const habitation of habitations) {
+        if (cancelled) return;
+
+        const latitude = Number(habitation.latitude);
+        const longitude = Number(habitation.longitude);
+        if (
+          !Number.isFinite(latitude) ||
+          !Number.isFinite(longitude) ||
+          latitude < -90 || latitude > 90 ||
+          longitude < -180 || longitude > 180
+        ) continue;
+
+        const risk = String(habitation.risk_level || "Orange").toLowerCase();
+        const zoneColor = risk === "red" ? "#ff334f"
+          : risk === "orange" ? "#ff8a3d"
+          : risk === "yellow" ? "#f5c542" : "#45d483";
+        const population = Number(habitation.total_population || 0);
+        const zone = L.circle([latitude, longitude], {
+          radius: 300 + Math.min(900, Math.max(0, population)),
+          color: zoneColor,
+          fillColor: zoneColor,
+          fillOpacity: 0.22,
+          weight: 2,
+        });
+
+        const safe = (value) => String(value ?? "N/A").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+        }[char]));
+
+        zone.bindPopup(`
+          <div style="min-width:230px;font-family:Arial,sans-serif;line-height:1.6">
+            <strong style="font-size:16px">${safe(habitation.habitation_name || "Vulnerable Habitation")}</strong><br/><br/>
+            <strong>Map layer:</strong> Hazard / Vulnerable Habitation<br/>
+            <strong>Risk level:</strong> ${safe(habitation.risk_level || "Orange")}<br/>
+            <strong>Hazard:</strong> ${safe(habitation.hazard_type)}<br/>
+            <strong>Population:</strong> ${safe(habitation.total_population)}<br/>
+            <strong>Vulnerable people:</strong> ${safe(habitation.vulnerable_people)}<br/>
+            <strong>Relocation:</strong> ${habitation.immediate_relocation_required ? "Required" : "Review required"}<br/>
+            <strong>Location:</strong> ${safe([habitation.location, habitation.city, habitation.state].filter(Boolean).join(", "))}
+          </div>
+        `);
+        zone.addTo(markerLayer);
+        habitationCount++;
+      }
+
       if (cancelled) return;
 
-      setMappedCount(count);
+      setMappedCount(count + habitationCount);
 
       // Keep the original dashboard view stable.
       map.invalidateSize();
@@ -370,7 +454,7 @@ function AdminIncidentMap({
     return () => {
       cancelled = true;
     };
-  }, [reports, rescueRequests]);
+  }, [reports, rescueRequests, habitations]);
 
   // =====================================================
   // FIT ALL INCIDENTS
@@ -408,8 +492,7 @@ function AdminIncidentMap({
           <h2>Incident Map</h2>
 
           <p>
-            Geographic view of active disaster reports
-            and rescue requests.
+            Geographic view of active incidents, rescue requests and vulnerable habitation risk zones.
           </p>
         </div>
 
@@ -467,6 +550,19 @@ function AdminIncidentMap({
               className="legend-dot low"
             ></span>
             Low
+          </div>
+
+          <div style={{ marginTop: 6, paddingTop: 6, borderTop: "1px solid #334155" }}>
+            <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", border: "2px solid #ff334f", background: "rgba(255,51,79,.25)", marginRight: 5 }}></span>
+            Red hazard zone
+          </div>
+          <div>
+            <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", border: "2px solid #ff8a3d", background: "rgba(255,138,61,.25)", marginRight: 5 }}></span>
+            Orange hazard zone
+          </div>
+          <div>
+            <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", border: "2px solid #f5c542", background: "rgba(245,197,66,.25)", marginRight: 5 }}></span>
+            Yellow hazard zone
           </div>
 
         </div>
