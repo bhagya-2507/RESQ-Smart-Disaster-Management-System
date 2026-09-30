@@ -24,6 +24,7 @@ const resourceRequestRoutes =
   require("./routes/resourceRequestRoutes");
 const shelterRequestRoutes = require("./routes/shelterRequestRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+const hazardPlanningRoutes = require("./routes/hazardPlanningRoutes");
 
 dotenv.config();
 
@@ -119,6 +120,7 @@ app.use(
   shelterRequestRoutes
 );
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/hazard-planning", hazardPlanningRoutes);
 /* =====================================================
    HEALTH CHECK
 ===================================================== */

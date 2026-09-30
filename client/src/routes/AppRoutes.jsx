@@ -36,6 +36,7 @@ import ResourceRequest from "../pages/citizen/ResourceRequest";
 import ResourceRequests from "../pages/admin/ResourceRequests";
 import ShelterRequest from "../pages/citizen/ShelterRequest";
 import ShelterRequests from "../pages/admin/ShelterRequests";
+import HazardPlanning from "../pages/admin/HazardPlanning";
 function AppRoutes() {
   return (
     <Routes>
@@ -265,6 +266,15 @@ function AppRoutes() {
   element={
     <ProtectedRoute allowedRole="admin">
       <Intelligence />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/hazard-planning"
+  element={
+    <ProtectedRoute allowedRole="admin">
+      <HazardPlanning />
     </ProtectedRoute>
   }
 />

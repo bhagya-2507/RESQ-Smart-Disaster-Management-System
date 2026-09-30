@@ -5735,3 +5735,577 @@
     justify-self: start;
   }
 }
+
+/* ==================================================
+   RESQ — HAZARD & RELOCATION PLANNING
+   Uses the existing admin.css design system
+   ================================================== */
+
+.hazard-planning-page {
+  width: 100%;
+  min-width: 0;
+  padding: 28px;
+  color: #e8eef8;
+}
+
+.hazard-planning-page .hazard-page-header {
+  margin-bottom: 26px;
+}
+
+.hazard-planning-page .hazard-page-header h1 {
+  margin: 12px 0;
+  color: #f8fafc;
+  font-size: clamp(26px, 2.5vw, 34px);
+  font-weight: 800;
+}
+
+.hazard-planning-page .hazard-page-header p {
+  color: #a9b8cc;
+  line-height: 1.6;
+}
+
+.hazard-planning-page .hazard-back-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hazard-planning-page .hazard-back-link:hover {
+  text-decoration: underline;
+}
+
+/* Summary cards */
+.hazard-planning-page .hazard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.hazard-planning-page .hazard-stat-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #152338, #101b2c);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.hazard-planning-page .hazard-stat-card p {
+  margin: 0 0 12px;
+  color: #a9b8cc;
+  font-size: 13px;
+}
+
+.hazard-planning-page .hazard-stat-card strong {
+  display: block;
+  color: #f8fafc;
+  font-size: clamp(23px, 2vw, 30px);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+/* Existing RESQ panel look */
+.hazard-planning-page .hazard-panel {
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 16px;
+  background: #101b2c;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.hazard-planning-page .hazard-panel h2 {
+  margin: 0 0 20px;
+  color: #f1f5f9;
+  font-size: 20px;
+  font-weight: 750;
+}
+
+/* Add habitation form */
+.hazard-planning-page .hazard-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hazard-planning-page .hazard-form input:not([type="checkbox"]),
+.hazard-planning-page .hazard-form select,
+.hazard-planning-page .hazard-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #33465f;
+  border-radius: 9px;
+  background: #0a1423;
+  color: #f8fafc;
+  font: inherit;
+}
+
+.hazard-planning-page .hazard-form input::placeholder,
+.hazard-planning-page .hazard-form textarea::placeholder {
+  color: #91a2b8;
+}
+
+.hazard-planning-page .hazard-form input:focus,
+.hazard-planning-page .hazard-form select:focus,
+.hazard-planning-page .hazard-form textarea:focus {
+  outline: 2px solid #38bdf8;
+  outline-offset: 1px;
+}
+
+.hazard-planning-page .hazard-form select option {
+  background: #101b2c;
+  color: #f8fafc;
+}
+
+.hazard-planning-page .hazard-form .hazard-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #dbeafe;
+}
+
+.hazard-planning-page .hazard-form input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #0ea5e9;
+}
+
+.hazard-planning-page .hazard-form textarea {
+  resize: vertical;
+}
+
+.hazard-planning-page .hazard-primary-button {
+  width: fit-content;
+  min-width: 170px;
+  padding: 12px 20px;
+  border: 1px solid #0284c7;
+  border-radius: 9px;
+  background: #0284c7;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hazard-planning-page .hazard-primary-button:hover {
+  background: #0369a1;
+}
+
+.hazard-planning-page .hazard-primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive data tables */
+.hazard-planning-page .hazard-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.hazard-planning-page .hazard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.hazard-planning-page .hazard-table th {
+  padding: 14px;
+  background: #192a40;
+  color: #cbd5e1;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.hazard-planning-page .hazard-table td {
+  padding: 14px;
+  border-bottom: 1px solid #29394e;
+  color: #dbe5f2;
+}
+
+.hazard-planning-page .hazard-table tbody tr:hover {
+  background: rgba(51, 65, 85, 0.24);
+}
+
+.hazard-planning-page .hazard-risk-red {
+  color: #f87171;
+  font-weight: 800;
+}
+
+.hazard-planning-page .hazard-risk-orange {
+  color: #fb923c;
+  font-weight: 800;
+}
+
+.hazard-planning-page .hazard-risk-yellow {
+  color: #facc15;
+  font-weight: 800;
+}
+
+.hazard-planning-page .hazard-risk-green {
+  color: #4ade80;
+  font-weight: 800;
+}
+
+.hazard-planning-page .hazard-record {
+  padding: 16px 0;
+  border-bottom: 1px solid #29394e;
+}
+
+.hazard-planning-page .hazard-record:last-child {
+  border-bottom: 0;
+}
+
+.hazard-planning-page .hazard-empty {
+  padding: 18px 0;
+  color: #a9b8cc;
+}
+
+@media (max-width: 1100px) {
+  .hazard-planning-page .hazard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .hazard-planning-page {
+    padding: 16px;
+  }
+
+  .hazard-planning-page .hazard-stats,
+  .hazard-planning-page .hazard-form {
+    grid-template-columns: 1fr;
+  }
+
+  .hazard-planning-page .hazard-panel {
+    padding: 16px;
+  }
+
+  .hazard-planning-page .hazard-primary-button {
+    width: 100%;
+  }
+}
+
+/* RESQ - Hazard & Relocation Planning */
+
+.hazard-planning-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px;
+  color: var(--text-primary, #e8eef8);
+  background: var(--bg-primary, #0b1220);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.hazard-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.hazard-page-header h1 {
+  margin: 8px 0 0;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.hazard-page-header p,
+.hazard-section-heading p {
+  margin: 0;
+  color: var(--text-secondary, #9baac0);
+  line-height: 1.7;
+}
+
+.hazard-back-link {
+  color: #7db5ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hazard-back-link:hover {
+  color: #b8d6ff;
+  text-decoration: underline;
+}
+
+.hazard-panel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border-color, #263449);
+  border-radius: 16px;
+  background: var(--card-bg, #111c2e);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.hazard-section-heading {
+  margin-bottom: 20px;
+}
+
+.hazard-section-heading h2,
+.hazard-panel > h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.hazard-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.hazard-form input:not([type="checkbox"]),
+.hazard-form select,
+.hazard-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  color: inherit;
+  background: var(--input-bg, #0b1525);
+  border: 1px solid var(--border-color, #34445b);
+  border-radius: 9px;
+  font: inherit;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.hazard-form input:focus,
+.hazard-form select:focus,
+.hazard-form textarea:focus {
+  border-color: #5797f7;
+  box-shadow: 0 0 0 3px rgba(87, 151, 247, 0.15);
+}
+
+.hazard-form input::placeholder,
+.hazard-form textarea::placeholder {
+  color: #8b9ab0;
+}
+
+.hazard-form textarea {
+  resize: vertical;
+}
+
+.hazard-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--text-primary, #e8eef8);
+}
+
+.hazard-checkbox input {
+  width: 17px;
+  height: 17px;
+  accent-color: #4389f5;
+}
+
+.hazard-primary-button,
+.hazard-location-button {
+  width: fit-content;
+  max-width: 100%;
+  padding: 12px 18px;
+  color: white;
+  background: #2563eb;
+  border: 1px solid #3b82f6;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hazard-primary-button:hover,
+.hazard-location-button:hover {
+  background: #1d4ed8;
+}
+
+.hazard-primary-button:disabled,
+.hazard-location-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.hazard-location-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  grid-column: 1 / -1;
+}
+
+.hazard-location-button {
+  background: #087f8c;
+  border-color: #0e9ba8;
+}
+
+.hazard-location-button:hover {
+  background: #066773;
+}
+
+.hazard-location-message {
+  margin: 0;
+  color: var(--text-secondary, #a8bad0);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hazard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hazard-stat-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border-color, #263449);
+  border-radius: 14px;
+  background: var(--card-bg, #111c2e);
+  border-top: 3px solid #4389f5;
+}
+
+.hazard-stat-card p {
+  margin: 0 0 12px;
+  color: var(--text-secondary, #a6b5ca);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hazard-stat-card strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 750;
+}
+
+.hazard-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color, #263449);
+  border-radius: 10px;
+}
+
+.hazard-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.hazard-table th {
+  padding: 14px;
+  color: #cbd8ea;
+  background: var(--table-header-bg, #19283d);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.hazard-table td {
+  padding: 14px;
+  border-top: 1px solid var(--border-color, #263449);
+  color: var(--text-primary, #e8eef8);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hazard-table tbody tr:hover {
+  background: rgba(90, 140, 210, 0.07);
+}
+
+.hazard-risk-red,
+.hazard-risk-orange,
+.hazard-risk-yellow,
+.hazard-risk-green {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.hazard-risk-red {
+  color: #ffb4b4;
+  background: rgba(220, 38, 38, 0.16);
+}
+
+.hazard-risk-orange {
+  color: #ffc78a;
+  background: rgba(234, 116, 24, 0.16);
+}
+
+.hazard-risk-yellow {
+  color: #ffe58b;
+  background: rgba(202, 160, 10, 0.16);
+}
+
+.hazard-risk-green {
+  color: #9be8bd;
+  background: rgba(22, 163, 74, 0.16);
+}
+
+.hazard-record {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color, #263449);
+}
+
+.hazard-record:last-child {
+  border-bottom: 0;
+}
+
+.hazard-record h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hazard-record p {
+  margin: 5px 0;
+  color: var(--text-secondary, #a6b5ca);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.hazard-empty {
+  padding: 16px 0;
+  color: var(--text-secondary, #a6b5ca);
+  line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+  .hazard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .hazard-planning-page {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .hazard-panel {
+    padding: 16px;
+  }
+
+  .hazard-form,
+  .hazard-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hazard-primary-button,
+  .hazard-location-button {
+    width: 100%;
+  }
+}

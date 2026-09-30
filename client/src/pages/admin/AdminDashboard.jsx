@@ -380,6 +380,13 @@ const notificationCount = notifications.length;
             <span>◈</span>
             Intelligence
           </Link>
+          <Link
+  to="/admin/hazard-planning"
+  className="admin-nav-link"
+>
+  <span>⚠</span>
+  Hazard & Relocation Planning
+</Link>
 
          
 
