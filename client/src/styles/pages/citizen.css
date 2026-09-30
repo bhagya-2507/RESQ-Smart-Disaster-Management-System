@@ -4017,3 +4017,69 @@
 .citizen-hazard-panel a:hover {
   filter: brightness(1.12);
 }
+/* ===== RESQ HAZARD AWARENESS LIST FIX ===== */
+
+.citizen-dashboard ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 12px 0;
+}
+
+.citizen-dashboard li {
+  list-style: none;
+  position: relative;
+  padding: 10px 12px 10px 34px;
+  margin: 7px 0;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  background: rgba(148, 163, 184, 0.06);
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.citizen-dashboard li::before {
+  content: "✓";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  color: #4ade80;
+  font-weight: 800;
+}
+
+/* Keep dashboard content below the sticky navbar */
+.citizen-content {
+  scroll-margin-top: 90px;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .citizen-content {
+    width: calc(100% - 28px);
+    padding-top: 24px;
+  }
+
+  .citizen-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .citizen-main-grid,
+  .citizen-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .citizen-topbar {
+    padding: 0 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .citizen-stats,
+  .citizen-action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .citizen-page-header h1 {
+    font-size: 28px;
+  }
+}

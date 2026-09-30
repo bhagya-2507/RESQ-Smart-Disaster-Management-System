@@ -37,6 +37,7 @@ const [feedbackLoading, setFeedbackLoading] = useState(true);
 
 const token = localStorage.getItem("resq_token");
 
+
 // Fetch main dashboard data
 useEffect(() => {
   const fetchDashboardData = async () => {
@@ -749,97 +750,113 @@ const notificationCount = notifications.length;
       </div>
       
 {/* PRIORITY RELOCATION QUEUE */}
-<div style={{ marginTop: 24 }}>
+
+<div className="admin-hazard-priority-section">
   <div className="admin-panel-header">
     <div>
       <span>RELOCATION PRIORITIES</span>
       <h2>Habitations Requiring Attention</h2>
     </div>
+
     <Link to="/admin/hazard-planning">
       View All →
     </Link>
   </div>
 
-  {hazardHabitations.length === 0 ? (
-    <p>No habitation assessment records available.</p>
+  {hazardLoading ? (
+    <p className="admin-hazard-message">Loading habitation records...</p>
+  ) : hazardError ? (
+    <p className="admin-hazard-message">{hazardError}</p>
+  ) : hazardHabitations.length === 0 ? (
+    <p className="admin-hazard-message">
+      No habitation assessment records available.
+    </p>
   ) : (
-    [...hazardHabitations]
-      .sort((a, b) => {
-        const priorityOrder = {
-          Immediate: 4,
-          "Short-term": 3,
-          "Medium-term": 2,
-          Monitor: 1,
-        };
+    <div className="admin-hazard-priority-list">
+      {[...hazardHabitations]
+        .sort((a, b) => {
+          const priorityOrder = {
+            Immediate: 4,
+            "Short-term": 3,
+            "Medium-term": 2,
+            Monitor: 1,
+          };
 
-        const priorityDifference =
-          (priorityOrder[b.relocation_priority] || 0) -
-          (priorityOrder[a.relocation_priority] || 0);
+          const difference =
+            (priorityOrder[b.relocation_priority] || 0) -
+            (priorityOrder[a.relocation_priority] || 0);
 
-        if (priorityDifference !== 0) {
-          return priorityDifference;
-        }
+          if (difference !== 0) return difference;
 
-        return (Number(b.risk_score) || 0) -
-          (Number(a.risk_score) || 0);
-      })
-      .slice(0, 5)
-      .map((item) => (
-        <div
-          key={item._id || item.id || item.habitation_name}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 12,
-            flexWrap: "wrap",
-            padding: "14px 0",
-            borderBottom: "1px solid rgba(148,163,184,0.2)",
-          }}
-        >
-          <div>
-            <strong>
-              {item.habitation_name || "Unnamed Habitation"}
-            </strong>
-            <p style={{ margin: "5px 0", opacity: 0.75 }}>
-              {item.location || item.city || "Location unavailable"}
-              {" · "}
-              {Number(item.vulnerable_people) || 0} vulnerable people
-            </p>
-            <small>
-              Hazard: {item.hazard_type || "Not specified"}
-              {" · "}
-              Risk score: {Number(item.risk_score) || 0}/100
-            </small>
-          </div>
+          return (
+            (Number(b.risk_score) || 0) -
+            (Number(a.risk_score) || 0)
+          );
+        })
+        .slice(0, 5)
+        .map((item) => {
+          const priority = item.relocation_priority || "Monitor";
 
-          <div style={{ textAlign: "right" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "5px 10px",
-                borderRadius: 20,
-                fontSize: 12,
-                fontWeight: 700,
-                background:
-                  item.relocation_priority === "Immediate"
-                    ? "rgba(239,68,68,0.16)"
-                    : item.relocation_priority === "Short-term"
-                    ? "rgba(249,115,22,0.16)"
-                    : "rgba(148,163,184,0.15)",
-                color:
-                  item.relocation_priority === "Immediate"
-                    ? "#ef4444"
-                    : item.relocation_priority === "Short-term"
-                    ? "#f97316"
-                    : "inherit",
-              }}
+          const priorityClass =
+            priority === "Immediate"
+              ? "immediate"
+              : priority === "Short-term"
+              ? "short-term"
+              : priority === "Medium-term"
+              ? "medium-term"
+              : "monitor";
+
+          return (
+            <div
+              className="admin-hazard-priority-card"
+              key={item._id || item.id || item.habitation_name}
             >
-              {item.relocation_priority || "Monitor"}
-            </span>
-          </div>
-        </div>
-      ))
+              <div className="admin-hazard-priority-details">
+                <h3>
+                  {item.habitation_name || "Unnamed Habitation"}
+                </h3>
+
+                <p className="admin-hazard-location">
+                  {[
+                    item.location,
+                    item.city,
+                    item.state,
+                  ]
+                    .filter(Boolean)
+                    .join(", ") || "Location unavailable"}
+                </p>
+
+                <div className="admin-hazard-meta">
+                  <span>
+                    <strong>Vulnerable people:</strong>{" "}
+                    {Number(item.vulnerable_people) || 0}
+                  </span>
+
+                  <span>
+                    <strong>Hazard:</strong>{" "}
+                    {item.hazard_type || "Not specified"}
+                  </span>
+
+                  <span>
+                    <strong>Risk score:</strong>{" "}
+                    {Number(item.risk_score) || 0}/100
+                  </span>
+                </div>
+              </div>
+
+              <div className="admin-hazard-priority-status">
+                <span className={`admin-hazard-priority-badge ${priorityClass}`}>
+                  {priority}
+                </span>
+
+                <span className="admin-hazard-risk-label">
+                  {item.risk_level || "Unclassified"} Risk
+                </span>
+              </div>
+            </div>
+          );
+        })}
+    </div>
   )}
 </div>
 

@@ -6309,3 +6309,226 @@
     width: 100%;
   }
 }
+/* ===== RESQ ADMIN: HABITATION PRIORITY ALIGNMENT FIX ===== */
+
+.hazard-priority-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 16px !important;
+  box-sizing: border-box;
+}
+
+.hazard-priority-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 18px 20px;
+  border: 1px solid #29374b;
+  border-radius: 12px;
+  background: #111b2b;
+}
+
+.hazard-priority-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.hazard-priority-info h4 {
+  margin: 0 0 8px;
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.hazard-priority-info p {
+  margin: 5px 0;
+  color: #b8c7da;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hazard-priority-info .hazard-risk-score {
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.hazard-priority-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border: 1px solid #475569;
+  border-radius: 999px;
+  background: #263449;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .hazard-priority-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .hazard-priority-badge {
+    justify-self: start;
+  }
+}
+
+/* Hazard relocation section only */
+.admin-hazard-priority-section {
+  width: 100%;
+  min-width: 0;
+  margin-top: 24px;
+  box-sizing: border-box;
+}
+
+.admin-hazard-priority-section .admin-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 20px 22px;
+  border-bottom: 1px solid #263247;
+}
+
+.admin-hazard-priority-section .admin-panel-header h2 {
+  margin: 8px 0 0;
+  line-height: 1.4;
+}
+
+.admin-hazard-priority-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-hazard-priority-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  border: 1px solid #29374b;
+  border-radius: 12px;
+  background: #101827;
+}
+
+.admin-hazard-priority-details {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-hazard-priority-details h3 {
+  margin: 0 0 8px;
+  color: #f8fafc;
+  font-size: 16px;
+}
+
+.admin-hazard-location {
+  margin: 0 0 10px;
+  color: #bdc9da;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.admin-hazard-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: #bdc9da;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.admin-hazard-meta strong {
+  color: #f8fafc;
+}
+
+.admin-hazard-priority-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.admin-hazard-priority-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-hazard-priority-badge.immediate {
+  color: #fecaca;
+  background: #4b202b;
+}
+
+.admin-hazard-priority-badge.short-term {
+  color: #fed7aa;
+  background: #492b1b;
+}
+
+.admin-hazard-priority-badge.medium-term {
+  color: #fef08a;
+  background: #42391c;
+}
+
+.admin-hazard-priority-badge.monitor {
+  color: #dbeafe;
+  background: #253449;
+}
+
+.admin-hazard-risk-label {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.admin-hazard-message {
+  padding: 20px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 650px) {
+  .admin-hazard-priority-section .admin-panel-header {
+    padding: 16px;
+  }
+
+  .admin-hazard-priority-list {
+    padding: 12px;
+  }
+
+  .admin-hazard-priority-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .admin-hazard-priority-status {
+    align-items: flex-start;
+  }
+
+  .admin-hazard-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
