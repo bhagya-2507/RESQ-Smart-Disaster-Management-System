@@ -6532,3 +6532,115 @@
     gap: 4px;
   }
 }
+
+/* =====================================================
+   RESQ ADMIN — SHARED PANEL LAYOUT CORRECTIONS
+   Fixes assessment text touching panel borders
+   without replacing the existing dashboard styles.
+===================================================== */
+
+.admin-page-shell .admin-table-panel {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.admin-page-shell .admin-table-panel > .admin-panel-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #263449;
+}
+
+.admin-page-shell .admin-table-panel > .admin-panel-header > div {
+  min-width: 0;
+  width: 100%;
+}
+
+.admin-page-shell .admin-table-panel > .admin-panel-header span {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.admin-page-shell .admin-table-panel > .admin-panel-header h2 {
+  margin: 8px 0 0;
+  color: #f8fafc;
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+/* Existing fallback paragraphs in assessment panels */
+.admin-page-shell .admin-table-panel > p {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 !important;
+  padding: 20px 28px 24px !important;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  background: rgba(15, 23, 42, 0.35);
+}
+
+/* Consistent assessment content spacing */
+.admin-page-shell .admin-table-panel > .admin-form-grid {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 24px 24px;
+}
+
+.admin-page-shell .admin-table-panel .admin-form-group {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.admin-page-shell .admin-table-panel .admin-form-group p {
+  margin: 8px 0 0;
+  color: #e2e8f0;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* Disabled actions should still be readable */
+.admin-page-shell .admin-primary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: saturate(0.75);
+}
+
+@media (max-width: 768px) {
+  .admin-page-shell .admin-table-panel > .admin-panel-header {
+    padding: 20px 18px 16px;
+  }
+
+  .admin-page-shell .admin-table-panel > p {
+    padding: 18px !important;
+  }
+
+  .admin-page-shell .admin-table-panel > .admin-form-grid {
+    padding: 8px 12px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-page-shell .admin-table-panel > .admin-panel-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-page-shell .admin-table-panel > p {
+    font-size: 13px;
+  }
+}

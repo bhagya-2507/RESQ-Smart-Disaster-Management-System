@@ -1,4 +1,3 @@
-
 const express = require("express");
 const protect = require("../middleware/authMiddleware");
 const adminOnly = require("../middleware/adminMiddleware");
@@ -8,6 +7,47 @@ const DisasterReport = require("../models/DisasterReport");
 const Shelter = require("../models/Shelter");
 
 const router = express.Router();
+
+
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  const toRadians = (degrees) => (degrees * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLon / 2) ** 2;
+
+  return (
+    2 *
+    earthRadiusKm *
+    Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  );
+}
+
+function hasValidCoordinates(place) {
+  const lat = Number(place.latitude);
+  const lon = Number(place.longitude);
+
+  return (
+    place.latitude !== null &&
+    place.latitude !== undefined &&
+    place.latitude !== "" &&
+    place.longitude !== null &&
+    place.longitude !== undefined &&
+    place.longitude !== "" &&
+    Number.isFinite(lat) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    Number.isFinite(lon) &&
+    lon >= -180 &&
+    lon <= 180
+  );
+}
 
 // Rule-based prototype assessment.
 // These scores are not validated disaster-response thresholds.
@@ -227,9 +267,29 @@ router.post("/habitations", protect, adminOnly, async (req, res) => {
 // Get hazard zones, relocation requirements and shelter capacity
 router.get("/overview", protect, adminOnly, async (req, res) => {
   try {
-    const habitations = await VulnerableHabitation.find()
+    const storedHabitations = await VulnerableHabitation.find()
       .sort({ createdAt: -1 })
       .lean();
+
+    // Recalculate missing/default scores for legacy records in the response.
+    // This does not write to MongoDB or alter existing priority decisions.
+    const habitations = storedHabitations.map((item) => {
+      if (Number(item.risk_score) > 0) {
+        return item;
+      }
+
+      const assessment = calculateRelocationAssessment({
+        risk_level: item.risk_level,
+        hazard_type: item.hazard_type,
+        total_population: item.total_population,
+        vulnerable_people: item.vulnerable_people,
+      });
+
+      return {
+        ...item,
+        risk_score: assessment.risk_score,
+      };
+    });
 
     const reports = await DisasterReport.find({
       status: { $nin: ["Resolved", "Rejected"] },
@@ -265,6 +325,57 @@ router.get("/overview", protect, adminOnly, async (req, res) => {
       (sum, item) => sum + (Number(item.vulnerable_people) || 0),
       0
     );
+    
+const habitationsWithShelterAssessment = habitations.map(
+  (habitation) => {
+    if (!hasValidCoordinates(habitation)) {
+      return {
+        ...habitation,
+        nearest_available_shelter: null,
+        shelter_distance_km: null,
+        shelter_capacity_sufficient: false,
+      };
+    }
+
+    const candidates = availableShelters
+      .filter(
+        (shelter) =>
+          Number(shelter.available_capacity) > 0 &&
+          hasValidCoordinates(shelter)
+      )
+      .map((shelter) => ({
+        ...shelter,
+        distance_km: calculateDistanceKm(
+          Number(habitation.latitude),
+          Number(habitation.longitude),
+          Number(shelter.latitude),
+          Number(shelter.longitude)
+        ),
+      }))
+      .sort((a, b) => a.distance_km - b.distance_km);
+
+    const nearest = candidates[0];
+
+    return {
+      ...habitation,
+      nearest_available_shelter: nearest
+        ? {
+            shelter_name: nearest.shelter_name,
+            location: nearest.location,
+            city: nearest.city,
+            available_capacity: nearest.available_capacity,
+          }
+        : null,
+      shelter_distance_km: nearest
+        ? Number(nearest.distance_km.toFixed(2))
+        : null,
+      shelter_capacity_sufficient: nearest
+        ? nearest.available_capacity >=
+          Number(habitation.total_population)
+        : false,
+    };
+  }
+);
 
     const availableShelterCapacity = availableShelters.reduce(
       (sum, shelter) => sum + shelter.available_capacity,
@@ -275,11 +386,15 @@ router.get("/overview", protect, adminOnly, async (req, res) => {
       (item) => item.risk_level === "Red"
     );
 
-    const relocationRequired = habitations.filter(
-      (item) =>
-        item.immediate_relocation_required === true ||
-        item.relocation_priority === "Immediate"
-    );
+   
+  const relocationRequired = habitations.filter(
+  (item) =>
+    item.immediate_relocation_required === true ||
+    ["Immediate", "Short-term"].includes(
+      item.relocation_priority
+    )
+);
+
 
     const relocationPopulation = relocationRequired.reduce(
       (sum, item) => sum + (Number(item.total_population) || 0),
@@ -306,7 +421,7 @@ router.get("/overview", protect, adminOnly, async (req, res) => {
         estimated_capacity_gap: estimatedCapacityGap,
       },
 
-      habitations,
+      habitations: habitationsWithShelterAssessment ,
       active_reports: reports,
       red_zones: redZones,
       relocation_required: relocationRequired,

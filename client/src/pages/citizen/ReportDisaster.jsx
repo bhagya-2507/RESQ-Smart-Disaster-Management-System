@@ -367,6 +367,8 @@ const getCurrentLocation = () => {
                   <option value="Fire">Fire</option>
                   <option value="Landslide">Landslide</option>
                   <option value="Cyclone">Cyclone</option>
+                  <option value="Cloudburst">Cloudburst</option>
+                  <option value="Coastal Erosion">Coastal Erosion</option>
                   <option value="Building Collapse">Building Collapse</option>
                   <option value="Other">Other</option>
                 </select>

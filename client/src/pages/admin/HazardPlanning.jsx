@@ -1,6 +1,9 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import RiskZoneMap from "./RiskZoneMap";
+import "leaflet/dist/leaflet.css";
+import "../../styles/HazardPlanning.css";
 
 const API_BASE_URL = import.meta.env.DEV
   ? "http://localhost:5000/api"
@@ -161,10 +164,56 @@ function HazardPlanning() {
     }));
   };
 
-  const handleAddHabitation = async (event) => {
-    event.preventDefault();
-    setSaving(true);
+ 
+const handleAddHabitation = async (event) => {
+  event.preventDefault();
 
+  const totalPopulation = Number(form.total_population);
+  const vulnerablePeople = Number(form.vulnerable_people);
+
+  const latitude = Number(form.latitude);
+  const longitude = Number(form.longitude);
+
+  if (
+    !Number.isInteger(totalPopulation) ||
+    totalPopulation <= 0
+  ) {
+    window.alert("Total population must be a whole number greater than zero.");
+    return;
+  }
+
+  if (
+    !Number.isInteger(vulnerablePeople) ||
+    vulnerablePeople < 0 ||
+    vulnerablePeople > totalPopulation
+  ) {
+    window.alert(
+      "Vulnerable people must be a whole number between zero and total population."
+    );
+    return;
+  }
+
+  if (
+    form.latitude.trim() === "" ||
+    !Number.isFinite(latitude) ||
+    latitude < -90 ||
+    latitude > 90
+  ) {
+    window.alert("Enter a valid latitude between -90 and 90.");
+    return;
+  }
+
+  if (
+    form.longitude.trim() === "" ||
+    !Number.isFinite(longitude) ||
+    longitude < -180 ||
+    longitude > 180
+  ) {
+    window.alert("Enter a valid longitude between -180 and 180.");
+    return;
+  }
+
+  setSaving(true);
     try {
       const token = localStorage.getItem("resq_token");
 
@@ -176,8 +225,8 @@ function HazardPlanning() {
         },
         body: JSON.stringify({
           ...form,
-          latitude: Number(form.latitude),
-          longitude: Number(form.longitude),
+          latitude,
+          longitude,
           total_population: Number(form.total_population),
           vulnerable_people: Number(form.vulnerable_people),
         }),
@@ -280,7 +329,7 @@ function HazardPlanning() {
     ["Vulnerable People", summary.vulnerable_people ?? 0],
     ["Active Incidents", summary.active_disaster_reports ?? 0],
     ["Red Zones", summary.red_zone_count ?? 0],
-    ["Immediate Relocation", summary.relocation_required_count ?? 0],
+    ["Immediate / Short-term Relocation", summary.relocation_required_count ?? 0],
     ["Available Shelter Capacity", summary.available_shelter_capacity ?? 0],
     ["Estimated Capacity Gap", summary.estimated_capacity_gap ?? 0],
   ];
@@ -351,6 +400,10 @@ function HazardPlanning() {
           </article>
         ))}
       </section>
+      {/* HAZARD RISK ZONE MAP */}
+<RiskZoneMap habitations={habitations} />
+
+{/* ADD HABITATION */}
 
       {/* ADD HABITATION */}
       <section className="hazard-panel">
@@ -473,19 +526,26 @@ function HazardPlanning() {
                 {hazard}
               </option>
             ))}
-          </select>
+            </select>
+          
+<div className="hazard-risk-field">
+  <label htmlFor="risk_level">
+    Initial Risk Classification — Field Assessment
+  </label>
 
-          <select
-            name="risk_level"
-            value={form.risk_level}
-            onChange={updateForm}
-          >
-            {["Red", "Orange", "Yellow", "Green"].map((risk) => (
-              <option key={risk} value={risk}>
-                {risk} Risk
-              </option>
-            ))}
-          </select>
+  <select
+    id="risk_level"
+    name="risk_level"
+    value={form.risk_level}
+    onChange={updateForm}
+  >
+    {["Red", "Orange", "Yellow", "Green"].map((risk) => (
+      <option key={risk} value={risk}>
+        {risk} Risk
+      </option>
+    ))}
+  </select>
+</div>
 
           <label className="hazard-checkbox">
             <input
@@ -514,121 +574,165 @@ function HazardPlanning() {
         </form>
       </section>
 
-      {/* PRIORITY QUEUE */}
-      <section className="hazard-panel">
-        <h2 className="text-xl font-bold mb-4">
-          Priority Relocation Queue
-        </h2>
+      
+{/* PRIORITY QUEUE */}
+<section className="hazard-panel">
+  <h2 className="text-xl font-bold mb-4">
+    Priority Relocation Queue
+  </h2>
 
-        <p className="mb-4">
-          Records are ordered by relocation priority and then by risk score.
-          Verify assessments with authorized disaster-response personnel.
-        </p>
+  <p className="mb-4">
+    Records are ordered by relocation priority and then by risk score.
+    Assessment factors are shown for review. Verify assessments with
+    authorized disaster-response personnel.
+  </p>
 
-        {priorityQueue.length > 0 ? (
-          <div className="hazard-table-wrap">
-            <table className="hazard-table">
-              <thead>
-                <tr>
-                  <th>Habitation</th>
-                  <th>Location</th>
-                  <th>Hazard</th>
-                  <th>Risk Score</th>
-                  <th>Priority</th>
-                  <th>Vulnerable People</th>
-                  <th>Recommendation</th>
-                </tr>
-              </thead>
+  {priorityQueue.length > 0 ? (
+    <div className="hazard-table-wrap">
+      <table className="hazard-table">
+        <thead>
+          <tr>
+            <th>Habitation</th>
+            <th>Location</th>
+            <th>Hazard</th>
+            <th>Risk Score</th>
+            <th>Priority</th>
+            <th>Vulnerable People</th>
+            <th>Assessment Basis</th>
+            <th>Recommendation</th>
+            
+<th>Nearest Available Shelter</th>
+          </tr>
+        </thead>
 
-              <tbody>
-                {priorityQueue.map((item) => {
-                  const priority = getPriority(item);
+        <tbody>
+          {priorityQueue.map((item) => {
+            const priority = getPriority(item);
+            const population =
+              Number(item.total_population) || 0;
+            const vulnerable =
+              Number(item.vulnerable_people) || 0;
 
-                  return (
-                    <tr key={item._id || item.habitation_name}>
-                      <td>{item.habitation_name}</td>
+            const vulnerablePercent =
+              population > 0
+                ? Math.round(
+                    (vulnerable / population) * 100
+                  )
+                : null;
 
-                      <td>
-                        {[item.location, item.city, item.state]
-                          .filter(Boolean)
-                          .join(", ")}
-                      </td>
+            return (
+              <tr key={item._id || item.habitation_name}>
+                <td>{item.habitation_name}</td>
 
-                      <td>{item.hazard_type}</td>
+                <td>
+                  {[item.location, item.city, item.state]
+                    .filter(Boolean)
+                    .join(", ")}
+                </td>
 
-                      <td>
-                        <strong>
-                          {Number(item.risk_score) || 0}/100
-                        </strong>
-                      </td>
+                <td>{item.hazard_type || "Not specified"}</td>
 
-                      <td>
-                        <span
-                          style={{
-                            color: priorityColor(priority),
-                            fontWeight: 700,
-                          }}
-                        >
-                          {priority}
-                        </span>
-                      </td>
+                <td>
+                  <strong>
+                    {Number(item.risk_score) || 0}/100
+                  </strong>
+                </td>
 
-                      <td>
-                        {Number(item.vulnerable_people) || 0}
-                      </td>
+                <td>
+                  <span
+                    style={{
+                      color: priorityColor(priority),
+                      fontWeight: 700,
+                    }}
+                  >
+                    {priority}
+                  </span>
+                </td>
 
-                      <td>
-                        {item.relocation_recommendation ||
-                          "Field assessment recommended."}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="hazard-empty">
-            No habitation assessments are available yet.
-          </p>
-        )}
-      </section>
+                <td>
+                  {vulnerable.toLocaleString("en-IN")}
+                  {" / "}
+                  {population.toLocaleString("en-IN")}
+                </td>
 
-      {/* ACTIVE DISASTER REPORTS */}
-      <section className="hazard-panel">
-        <h2 className="text-xl font-bold mb-4">
-          Active Disaster Reports
-        </h2>
+                <td>
+                  <div>
+                    <strong>
+                      Risk level:{" "}
+                    </strong>
+                    {item.risk_level || "Not specified"}
+                  </div>
 
-        {activeReports.length > 0 ? (
-          activeReports.map((report) => (
-            <article
-              key={report._id}
-              className="hazard-record"
-            >
-              <p className="font-semibold">
-                {report.disaster_type || "Disaster"} —{" "}
-                {report.priority_level || "Priority pending"}
-              </p>
+                  <div>
+                    <strong>Hazard: </strong>
+                    {item.hazard_type || "Not specified"}
+                  </div>
 
-              <p>
-                {[report.location, report.city, report.state]
-                  .filter(Boolean)
-                  .join(", ")}
-              </p>
+                  <div>
+                    <strong>Vulnerable share: </strong>
+                    {vulnerablePercent === null
+                      ? "Population data needed"
+                      : `${vulnerablePercent}%`}
+                  </div>
+                </td>
 
-              <p>
-                Severity: {report.severity || "Not specified"} |
-                {" "}Status: {report.status || "Unknown"}
-              </p>
-            </article>
-          ))
-        ) : (
-          <p className="hazard-empty">
-            No active disaster reports found.
-          </p>
-        )}
-      </section>
+                <td>
+                  {item.relocation_recommendation ||
+                    "Field assessment recommended."}
+                </td>
+                
+<td>
+  {item.nearest_available_shelter ? (
+    <>
+      <strong>
+        {item.nearest_available_shelter.shelter_name}
+      </strong>
+
+      <div>
+        {[
+          item.nearest_available_shelter.location,
+          item.nearest_available_shelter.city,
+        ]
+          .filter(Boolean)
+          .join(", ")}
+      </div>
+
+      <div>
+        Distance:{" "}
+        {item.shelter_distance_km != null
+          ? `${item.shelter_distance_km} km`
+          : "Unavailable"}
+      </div>
+
+      <div>
+        Available capacity:{" "}
+        {Number(
+          item.nearest_available_shelter.available_capacity
+        ).toLocaleString("en-IN")}
+      </div>
+
+      <div>
+        {item.shelter_capacity_sufficient
+          ? "Capacity sufficient for listed population"
+          : "Capacity insufficient for listed population"}
+      </div>
+    </>
+  ) : (
+    <span>No suitable open shelter data found</span>
+  )}
+</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <p className="hazard-empty">
+      No habitation assessments are available yet.
+    </p>
+  )}
+</section>
 
       {/* SHELTER CAPACITY */}
       <section className="hazard-panel">

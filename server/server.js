@@ -121,10 +121,7 @@ app.use(
 );
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/hazard-planning", hazardPlanningRoutes);
-app.use(
-  "/api/hazard-planning",
-  hazardPlanningRoutes
-);
+
 /* =====================================================
    HEALTH CHECK
 ===================================================== */

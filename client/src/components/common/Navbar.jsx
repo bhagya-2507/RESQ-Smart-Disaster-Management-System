@@ -62,7 +62,7 @@ function Navbar() {
           <div>
             <div className="navbar-name">RESQ</div>
             <div className="navbar-subtitle">
-              SMART DISASTER RESPONSE
+            DISASTER RISK & RELOCATION PLANNING
             </div>
           </div>
         </Link>
@@ -156,16 +156,20 @@ function Navbar() {
           )}
 
           {user?.role === "admin" && (
-            <>
-              <Link to="/admin">Dashboard</Link>
-              <Link to="/admin/reports">Reports</Link>
-              <Link to="/admin/rescue-teams">Teams</Link>
-              <Link to="/admin/resources">Resources</Link>
-              <Link to="/admin/shelters">Shelters</Link>
-              <Link to="/admin/alerts">Alerts</Link>
-              <Link to="/intelligence">Intelligence</Link>
-            </>
-          )}
+  <>
+    <Link to="/admin">Dashboard</Link>
+    <Link to="/admin/hazard-planning">Hazard Planning</Link>
+    <Link to="/intelligence">Risk Intelligence</Link>
+    <Link to="/admin/reports">Disaster Reports</Link>
+    <Link to="/admin/rescue-requests">Rescue Requests</Link>
+    <Link to="/admin/rescue-teams">Rescue Teams</Link>
+    <Link to="/admin/resources">Resources</Link>
+    <Link to="/admin/shelters">Shelters</Link>
+    <Link to="/admin/resource-requests">Resource Requests</Link>
+    <Link to="/admin/shelter-requests">Shelter Requests</Link>
+    <Link to="/admin/alerts">Alerts</Link>
+  </>
+)}
 
           {user?.role === "rescue_team" && (
             <Link to="/team-dashboard">Dashboard</Link>

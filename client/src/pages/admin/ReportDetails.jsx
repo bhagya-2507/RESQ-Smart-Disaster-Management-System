@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const API_BASE =
-  "https://resq-smart-disaster-management-system.onrender.com/api";
-
+const API_BASE = "http://localhost:5000/api";
 function ReportDetails() {
   const { id } = useParams();
 
