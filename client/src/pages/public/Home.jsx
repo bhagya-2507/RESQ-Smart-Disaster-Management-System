@@ -120,7 +120,7 @@ function Home() {
           <div className="home-hero-content">
             <div className="home-status">
               <span></span>
-              SIH 2026 · PROBLEM STATEMENT SIH26191
+              PROBLEM STATEMENT
             </div>
 
             <h1>
@@ -249,7 +249,7 @@ function Home() {
           id="problem-statement"
         >
           <span className="home-label">
-            SIH26191 · CORE OBJECTIVES
+            CORE OBJECTIVES
           </span>
 
           <h2 className="home-section-title">
@@ -504,7 +504,7 @@ function Home() {
         <section className="home-final-cta">
           <div>
             <span className="home-label">
-              RESQ · SIH26191
+              RESQ 
             </span>
             <h2>
               Better risk assessment. Informed relocation planning.
@@ -551,7 +551,7 @@ function Home() {
         </div>
 
         <div className="footer-status">
-          SIH26191 · Decision-Support Prototype
+         Decision-Support Prototype
         </div>
 
         <div className="footer-bottom">
