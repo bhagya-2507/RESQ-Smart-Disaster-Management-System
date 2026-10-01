@@ -249,7 +249,7 @@ function Home() {
           id="problem-statement"
         >
           <span className="home-label">
-            CORE OBJECTIVES
+           . CORE OBJECTIVES
           </span>
 
           <h2 className="home-section-title">
@@ -320,7 +320,7 @@ function Home() {
         {/* CAPABILITIES */}
         <section className="home-section" id="capabilities">
           <span className="home-label">
-            CONNECTED RESQ MODULES
+           . CONNECTED RESQ MODULES
           </span>
 
           <h2 className="home-section-title">
@@ -353,7 +353,7 @@ function Home() {
         {/* DECISION SUPPORT */}
         <section className="home-section home-intelligence">
           <span className="home-label">
-            RISK & RELOCATION DECISION SUPPORT
+           . RISK & RELOCATION DECISION SUPPORT
           </span>
 
           <h2 className="home-section-title">
@@ -438,7 +438,7 @@ function Home() {
         {/* ROLE-BASED ACCESS */}
         <section className="home-section" id="access">
           <span className="home-label">
-            ROLE-BASED ACCESS
+            .ROLE-BASED ACCESS
           </span>
 
           <h2 className="home-section-title">
